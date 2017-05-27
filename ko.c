@@ -75,9 +75,9 @@ void start(void)
               money++;
       else if(ch=='O')
                   O++;
-      if(ch=='\n')
+      if(ch=='\n'){
                   x++;
-
+                  y=0;}
       map[i][x][y]=ch;
       y++;
   }
