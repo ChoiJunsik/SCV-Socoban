@@ -7,16 +7,31 @@
 #define STAGE 5
 char name[10];
 char map[STAGE][WIDTH][HEIGHT];
-int scan_at_y(int i)
+int move(int);
+int scan_at_x(int);
+int scan_at_y(int);
+int getch(void);
+int scan_at_y(int i);
+char key_input(int);
+void start(void);
+
+int main(void)
 {
-	int x,y=0;
-	for(;y<=30;y++){
-		for(;x<=30;x++)
-		{
-			if (map[i][y][x]=='@')
-			return y;
-		}
-	}
+	  char ch=0;
+	  start();
+	  for(int i=0;i<=4;i++){
+	      while(1){
+		  printf("hello %s",name);
+		  for(int y=0; y<WIDTH;y++){
+			 for(int x=0; x<HEIGHT;x++)
+				printf("%c",map[i][y][x]);} 
+	    	  printf("(Command)");
+               	  key_input(i);
+		  printf("\n");
+      	          system("clear"); 
+       	      }      
+  }
+  return 0;
 }
 int scan_at_x(int i)
 {
@@ -29,118 +44,17 @@ int scan_at_x(int i)
 		}
 	}
 }
-void move_left(int i)
-	{
-		int x = scan_at_x(i);
-		int y = scan_at_y(i); 
-		switch(map[i][y][x-1]){
-			case '#':
-				 break;
-			case ' ':
-				 map[i][y][x-1]='@';
-				 break;
-			case 'O':
-				 map[i][y][x-1]='@'; 
-				 break;
-			case '$':
-				 if(map[i][y][x-2]=='#'||map[i][y][x-2]=='$')
-				 	break;
-				 else{
-					map[i][y][x-2]='$';
-					map[i][y][x-1]='@';
-					map[i][y][x]=' ';
-				     }
-				 
-				 
+int scan_at_y(int i)
+{
+	int x,y=0;
+	for(;y<=30;y++){
+		for(;x<=30;x++)
+		{
+			if (map[i][y][x]=='@')
+			return y;
 		}
-		return ;
 	}
-void move_down(int i)
-	{
-		int x = scan_at_x(i);
-		int y = scan_at_y(i); 
-		switch(map[i][y-1][x]){
-			case '#':
-				 break;
-			case ' ':
-				 map[i][y-1][x]='@';
-				 map[i][y][x]=' ';
-				 break;
-			case 'O':
-				 map[i][y-1][x]='@'; 
-				 map[i][y][x]=' ';
-				 break;
-			case '$':
-				 if(map[i][y-2][x]=='#'||map[i][y-2][x]=='$')
-				 	break;
-				 else{
-	 				map[i][y-2][x]='$';
-					map[i][y-1][x]='@';
-					map[i][y][x]=' ';
-				     }	
-				 
-				 break;
-
-		}
-		return ;
-				 
-	}
-void move_up(int i)
-	{
-		int x = scan_at_x(i);
-		int y = scan_at_y(i); 
-		switch(map[i][y+1][x]){
-			case '#':
-				 break;
-			case ' ':
-				 map[i][y+1][x]='@';
-				 map[i][y][x]=' ';
-				 break;
-			case 'O':
-				 map[i][y+1][x]='@'; 
-				 map[i][y][x]=' ';
-				 break;
-			case '$':
-				 if(map[i][y+2][x]=='#'||map[i][y+2][x]=='$')
-				 	break;
-				 else{
- 					map[i][y+2][x]='$';
-					map[i][y+1][x]='@';
-					map[i][y][x]=' ';
-				     }
-				 
-				 break;
-
-		}
-		return ;
-				 
-	}
-void move_right(int i)
-	{
-		int x = scan_at_x(i);
-		int y = scan_at_y(i); 
-		switch(map[i][y][x-1]){
-			case '#':
-				 break;
-			case ' ':
-				 map[i][y][x-1]='@';
-				 break;
-			case 'O':
-				 map[i][y][x-1]='@'; 
-				 break;
-			case '$':
-				 if(map[i][y][x-2]=='#'||map[i][y][x-2]=='$')
-				 	break;
-				 else{
-					map[i][y][x-2]='$';
-					map[i][y][x-1]='@';
-					map[i][y][x]=' ';
-				     }
-				 
-				 
-		}
-		return ;
-	}
+}
 int getch(void){
  int ch;
  struct termios buf;
@@ -159,10 +73,10 @@ char key_input(int i)
 {
   char key=getch();
   switch(key){
-    case 'h':move_left(i); break;
-    case 'j':move_down(i); break;
-    case 'k':move_up(i); break;
-    case 'l':move_right(i); break;
+    case 'h':
+    case 'j':
+    case 'k':
+    case 'l':move(key); break;
     case 'u':printf("%c",key);break;
     case 'r':printf("%c",key);break;
     case 'n':printf("%c",key);break;
@@ -204,10 +118,10 @@ void start(void)
       else if(ch=='O')
                   O++;
       if(ch=='\n')
-                  x++;
+                  y++;
 
-      map[i][x][y]=ch;
-      y++;
+      map[i][y][x]=ch;
+      x++;
   }
 
   if(money!=O)
@@ -215,22 +129,4 @@ void start(void)
   fclose(fp);
 
   return;
-}
-
-int main(void)
-{
-  char ch=0;
-  start();
-/*  for(int i=0;i<=4;i++){
-      while(1){
-  	 printf("hello %s",name);
-     	 for(int x=0; x<WIDTH;x++){
-        	 for(int y=0; y<HEIGHT;y++)
-       		 	printf("%c",map[i][x][y]);} 
-         printf("(Command)");
-         key_input(i);
-         system("clear"); 
-       }      
-  }*/
-  return 0;
 }
