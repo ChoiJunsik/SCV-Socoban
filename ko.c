@@ -6,7 +6,7 @@
 #define HEIGHT 30
 #define STAGE 5
 char name[10];
-char map[STAGE][WIDTH][HEIGHT];
+char map[STAGE][WIDTH][HEIGHT]={' '};
 int map_stage;
 
 int getch(void){
