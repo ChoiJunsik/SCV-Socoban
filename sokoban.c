@@ -5,6 +5,142 @@
 #define WIDTH 30
 #define HEIGHT 30
 #define STAGE 5
+char name[10];
+char map[STAGE][WIDTH][HEIGHT];
+int scan_at_y(int i)
+{
+	int x,y=0;
+	for(;y<=30;y++){
+		for(;x<=30;x++)
+		{
+			if (map[i][y][x]=='@')
+			return y;
+		}
+	}
+}
+int scan_at_x(int i)
+{
+	int x,y=0;
+	for(;y<=30;y++){
+		for(;x<=30;x++)
+		{
+			if (map[i][y][x]=='@')
+			return y;
+		}
+	}
+}
+void move_left(int i)
+	{
+		int x = scan_at_x(i);
+		int y = scan_at_y(i); 
+		switch(map[i][y][x-1]){
+			case '#':
+				 break;
+			case ' ':
+				 map[i][y][x-1]='@';
+				 break;
+			case 'O':
+				 map[i][y][x-1]='@'; 
+				 break;
+			case '$':
+				 if(map[i][y][x-2]=='#'||map[i][y][x-2]=='$')
+				 	break;
+				 else{
+					map[i][y][x-2]='$';
+					map[i][y][x-1]='@';
+					map[i][y][x]=' ';
+				     }
+				 
+				 
+		}
+		return ;
+	}
+void move_down(int i)
+	{
+		int x = scan_at_x(i);
+		int y = scan_at_y(i); 
+		switch(map[i][y-1][x]){
+			case '#':
+				 break;
+			case ' ':
+				 map[i][y-1][x]='@';
+				 map[i][y][x]=' ';
+				 break;
+			case 'O':
+				 map[i][y-1][x]='@'; 
+				 map[i][y][x]=' ';
+				 break;
+			case '$':
+				 if(map[i][y-2][x]=='#'||map[i][y-2][x]=='$')
+				 	break;
+				 else{
+	 				map[i][y-2][x]='$';
+					map[i][y-1][x]='@';
+					map[i][y][x]=' ';
+				     }	
+				 
+				 break;
+
+		}
+		return ;
+				 
+	}
+void move_up(int i)
+	{
+		int x = scan_at_x(i);
+		int y = scan_at_y(i); 
+		switch(map[i][y+1][x]){
+			case '#':
+				 break;
+			case ' ':
+				 map[i][y+1][x]='@';
+				 map[i][y][x]=' ';
+				 break;
+			case 'O':
+				 map[i][y+1][x]='@'; 
+				 map[i][y][x]=' ';
+				 break;
+			case '$':
+				 if(map[i][y+2][x]=='#'||map[i][y+2][x]=='$')
+				 	break;
+				 else{
+ 					map[i][y+2][x]='$';
+					map[i][y+1][x]='@';
+					map[i][y][x]=' ';
+				     }
+				 
+				 break;
+
+		}
+		return ;
+				 
+	}
+void move_right(int i)
+	{
+		int x = scan_at_x(i);
+		int y = scan_at_y(i); 
+		switch(map[i][y][x-1]){
+			case '#':
+				 break;
+			case ' ':
+				 map[i][y][x-1]='@';
+				 break;
+			case 'O':
+				 map[i][y][x-1]='@'; 
+				 break;
+			case '$':
+				 if(map[i][y][x-2]=='#'||map[i][y][x-2]=='$')
+				 	break;
+				 else{
+					map[i][y][x-2]='$';
+					map[i][y][x-1]='@';
+					map[i][y][x]=' ';
+				     }
+				 
+				 
+		}
+		return ;
+	}
 int getch(void){
  int ch;
  struct termios buf;
@@ -19,17 +155,14 @@ int getch(void){
  tcsetattr(0, TCSAFLUSH, &save);
  return ch;
 }
-char at_x[STAGE][1],at_y[STAGE][1];
-char name[10];
-char map[STAGE][WIDTH][HEIGHT];
-char key_input()
+char key_input(int i)
 {
   char key=getch();
   switch(key){
-    case 'h'://move_left() break;
-    case 'j'://move_down() break;
-    case 'k'://move_up() break;
-    case 'l':/*:move_right() */break;
+    case 'h':move_left(i); break;
+    case 'j':move_down(i); break;
+    case 'k':move_up(i); break;
+    case 'l':move_right(i); break;
     case 'u':printf("%c",key);break;
     case 'r':printf("%c",key);break;
     case 'n':printf("%c",key);break;
@@ -43,8 +176,13 @@ char key_input()
   } 
 
 }
-void map_start(void)
+
+void start(void)
 {
+  printf("Start....\n");
+  printf("input name : ");
+  scanf("%s",&name);
+  system("clear");
 
   int x=0,y=0,i=-1;
   char ch;
@@ -65,30 +203,16 @@ void map_start(void)
               money++;
       else if(ch=='O')
                   O++;
-      else if(ch=='@')
-	at_y[i][1]=x,at_x[i][1]=y;
+      if(ch=='\n')
+                  x++;
+
       map[i][x][y]=ch;
       y++;
-      if(ch=='\n'){
-              x++;
-      }
   }
 
   if(money!=O)
-  {
-     printf("박스의 갯수와 보관장소의 갯수가 같지 않습니다");
-     exit(1);
-  }
+    printf("돈,공간 오류");
   fclose(fp);
-  return;
-}
-
-void start(void)
-{
-  printf("Start....\n");
-  printf("input name : ");
-  scanf("%s",&name);
-  system("clear");
 
   return;
 }
@@ -97,19 +221,16 @@ int main(void)
 {
   char ch=0;
   start();
-  printf("hello %s",name);
-  map_start();
-  for(int i=0;i<=4;i++){
-    for(int x=0; x<WIDTH;x++)
-      for(int y=0; y<HEIGHT;y++)
-        printf("%c",map[i][x][y]); 
-    printf("(Command)");
-    while(1)
-    {
-       key_input();
-       
-	      
-    } 
-  }
+/*  for(int i=0;i<=4;i++){
+      while(1){
+  	 printf("hello %s",name);
+     	 for(int x=0; x<WIDTH;x++){
+        	 for(int y=0; y<HEIGHT;y++)
+       		 	printf("%c",map[i][x][y]);} 
+         printf("(Command)");
+         key_input(i);
+         system("clear"); 
+       }      
+  }*/
   return 0;
 }
