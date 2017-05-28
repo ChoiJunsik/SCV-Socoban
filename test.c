@@ -1,0 +1,316 @@
+#include<stdio.h>
+#include<termio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#define LEFT 104
+#define RIGHT 108
+#define UP 107
+#define DOWN 106
+int X = 0;
+int Y = 0;
+int moved = 0;
+int keyinput = 0;
+char player = 0;
+int bank_location_X[5][20] = {0};
+int bank_location_Y[5][20] = {0};
+char map[5][30][30]={0};
+char map_now[5][30][30] = {0};
+int count_bank[5]={0};
+char name[10] = {0};
+
+void move(int, int);
+void map_print(int);
+void map_reader();
+int input();
+void playermove(int, int);
+void where_is_bank(int);
+void cleared();
+int clear_check(int);
+
+
+void map_print(int stage)
+{
+	printf("   HELLO %s \n",name);
+     for (int i=0; i<30; i++)  //맵 출력
+         for (int j=0; j<30; j++)
+             printf("%c",map_now[stage][i][j]);
+}
+
+void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
+{
+    FILE *mapfile;
+    mapfile = fopen("map", "r");
+    char temp=0;
+	char count_map=0;
+	for (int reading_stage = 0; reading_stage<5 ; reading_stage++){
+		while(1){  //읽기 무한루프
+    	    fscanf(mapfile,"%c",&temp);
+			if (temp == 'a'){
+			   for (int i = 0; i<2 ; i++)
+    	    		fscanf(mapfile,"%c",&temp); // p, \n 버림
+				break; // 읽기 무한루프 빠져나감
+			}
+		}
+			
+		X=0;  //좌표 초기화
+		Y=0;
+		
+		while(1){  //쓰기 무한루프
+			fscanf(mapfile,"%c", &temp);
+			if (temp == '\n'){ //공백문장을 만나면 Y축 값 +1
+	            map[reading_stage][Y][X] = temp;
+  		         Y++;
+		         X=0;
+   	        }
+	        else if (temp == 'm' || temp == 'e') //m,e 를 만나면 쓰기 무한루프 빠져나감
+	            break;
+	        else{
+	            map[reading_stage][Y][X] = temp;
+	            X++;
+	        }
+	    }
+	}	
+	    fclose(mapfile);
+	
+		for (int reading_stage = 0; reading_stage<5; reading_stage++) //가변 맵 배열에 불러온 맵 덮어쓰기
+			for (Y=0; Y<30; Y++)
+				for (X=0; X<30; X++)
+					map_now[reading_stage][Y][X] = map[reading_stage][Y][X];
+
+}
+
+int input(void) // 키입력
+{
+    int keyinput;
+    struct termios buf;
+    struct termios save;
+   tcgetattr(0, &save);
+   buf = save;
+   buf.c_lflag&=~(ICANON|ECHO);
+   buf.c_cc[VMIN] = 1;
+   buf.c_cc[VTIME] = 0;
+   tcsetattr(0, TCSAFLUSH, &buf);
+   keyinput = getchar();
+   tcsetattr(0,TCSAFLUSH,&save);
+   return keyinput;
+}
+
+void playermove(int keyinput, int stage) //플레이어 이동, 은행 복귀
+{
+     if (keyinput == LEFT || keyinput == RIGHT || keyinput == UP || keyinput == DOWN){
+         move(keyinput, stage);
+         for(int i=0;i<count_bank[stage];i++) // 플레이어 이동으로 인해 스페이스가 된 은행을 원상복구
+             if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ')
+                 map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]] = 'O';
+		 map_now[stage][0][0] = map[stage][0][0]; //오류 해결
+    }
+}
+
+void move (int keyinput, int stage){
+    for (Y=0; Y<30; Y++) // 플레이어 위치 찾기
+        for(X=0; X<30; X++)
+            if (map_now[stage][Y][X] == '@'){
+    switch (keyinput){
+
+        case DOWN :
+
+            if (map_now[stage][Y+1][X] == '#') //다음칸이 벽
+                return;
+            else if (map_now[stage][Y+1][X] == ' ' ){ //다음칸이 공간
+                map_now[stage][Y][X] = ' ';
+                map_now[stage][Y+1][X] = '@';
+                    return;
+            }
+            else if (map_now[stage][Y+1][X] == 'O'){ //다음칸이 은행
+                map_now[stage][Y][X] = ' ';
+                map_now[stage][Y+1][X] = '@';
+                    return;
+            }
+            else if (map_now[stage][Y+1][X] == '$'){ //다음칸이 돈
+                if (map_now[stage][Y+2][X] == '#' || map_now[stage][Y+2][X] == '$') //다다음칸이 벽이나 돈
+                    return;
+                else if (map_now[stage][Y+2][X] == 'O'){ //다다음칸이 은행
+                    map_now[stage][Y][X] = ' ';
+                    map_now[stage][Y+1][X] = '@';
+                    map_now[stage][Y+2][X] = '$';
+                    return;
+                }
+    else if (map_now[stage][Y+2][X] == ' '){ //다다음칸이 공간
+                    map_now[stage][Y][X] = ' ';
+                    map_now[stage][Y+1][X] = '@';
+                    map_now[stage][Y+2][X] = '$';
+                    return;
+                }
+            }
+            return;
+
+        case UP :
+
+            if (map_now[stage][Y-1][X] == '#') //다음칸이 벽
+                return;
+            else if (map_now[stage][Y-1][X] == ' '){ //다음칸이 공간
+                map_now[stage][Y-1][X] = '@';
+                map_now[stage][Y][X] = ' ';
+                    return;
+            }
+            else if (map_now[stage][Y-1][X] == 'O'){ //다음칸이 은행
+                map_now[stage][Y-1][X] = '@';
+                map_now[stage][Y][X] = ' ';
+                    return;
+            }
+            else if (map_now[stage][Y-1][X] == '$'){ //다음칸이 돈
+                if (map_now[stage][Y-2][X] == '#' || map_now[stage][Y-2][X] == '$') //다다음칸이 벽이나 돈
+                    return;
+                else if (map_now[stage][Y-2][X] == 'O'){ //다다음칸이 은행
+                    map_now[stage][Y-2][X] = '$';
+                    map_now[stage][Y-1][X] = '@';
+                    map_now[stage][Y][X] = ' ';
+                    return;
+                }
+    else if (map_now[stage][Y-2][X] == ' '){ //다다음칸이 공간
+                    map_now[stage][Y-2][X] = '$';
+                    map_now[stage][Y-1][X] = '@';
+                    map_now[stage][Y][X] = ' ';
+                    return;
+                }
+            }
+            break;
+
+        case LEFT :
+
+            if (map_now[stage][Y][X-1] == '#')
+                    return;
+            else if (map_now[stage][Y][X-1] == ' '){
+                map_now[stage][Y][X-1] = '@';
+                map_now[stage][Y][X] = ' ';
+              		return;
+            }
+            else if (map_now[stage][Y][X-1] == 'O'){
+                map_now[stage][Y][X-1] = '@';
+                map_now[stage][Y][X] = ' ';
+                    return;
+            }
+ else if (map_now[stage][Y][X-1] == '$'){
+                if (map_now[stage][Y][X-2] == '#' || map_now[stage][Y][X-2] == '$')
+                    return;
+                else if (map_now[stage][Y][X-2] == 'O'){
+                    map_now[stage][Y][X-2] = '$';
+                    map_now[stage][Y][X-1] = '@';
+                    map_now[stage][Y][X] = ' ';
+                    return;
+                }
+                else if (map_now[stage][Y][X-2] == ' '){
+                    map_now[stage][Y][X-2] = '$';
+                    map_now[stage][Y][X-1] = '@';
+                    map_now[stage][Y][X] = ' ';
+                    return;
+                }
+            }
+            return;
+
+        case RIGHT :
+
+            if (map_now[stage][Y][X+1] == '#')
+                    return;
+            else if (map_now[stage][Y][X+1] == ' '){
+                map_now[stage][Y][X] = ' ';
+                map_now[stage][Y][X+1] = '@';
+                    return;
+            }
+            else if (map_now[stage][Y][X+1] == 'O'){
+                map_now[stage][Y][X] = ' ';
+                map_now[stage][Y][X+1] = '@';
+                    return;
+            }
+ else if (map_now[stage][Y][X+1] == '$'){
+                if (map_now[stage][Y][X+2] == '#' || map_now[stage][Y][X+2] == '$')
+                    return;
+                else if (map_now[stage][Y][X+2] == 'O'){
+                    map_now[stage][Y][X] = ' ';
+                    map_now[stage][Y][X+1] = '@';
+                    map_now[stage][Y][X+2] = '$';
+                    return;
+                }
+                else if (map_now[stage][Y][X+2] == ' '){
+                    map_now[stage][Y][X] = ' ';
+                    map_now[stage][Y][X+1] = '@';
+                    map_now[stage][Y][X+2] = '$';
+                    return;
+                }
+            }
+            return;
+        default :
+            break;
+    }
+			}
+}
+
+void where_is_bank(int stage) //맵의 은행 위치의 좌표를 저장
+{
+for (stage=0; stage<5; stage++){
+	int count = 0;
+	for(Y = 0; Y<30; Y++) 
+	    for (X = 0; X<30; X++)
+	        if (map_now[stage][Y][X] == 'O'){
+	            bank_location_X[stage][count] = X;
+	            bank_location_Y[stage][count] = Y;
+	            count_bank[stage]++;
+				count++;
+	        }
+    }
+}
+
+void cleared(void)
+{
+	system("clear");
+	printf("축하합니다 클리어입니다\n");
+	sleep(3);
+	system("clear");
+}
+
+int clear_check(int stage)
+{
+	int success=0;
+	for (int count = 0; count<20; count++){
+	   if (map_now[stage][bank_location_Y[stage][count]][bank_location_X[stage][count]] == '$'){
+			success++;   //은행위치에 돈이 있으면 성공 +1
+			if (count_bank[stage] == success){  // 은행 갯수와 성공수가 같으면 클리어
+					cleared();
+					stage++;
+					return stage;
+			}
+	   }
+	}
+	return stage;
+
+}
+			
+void yourname(void)
+{
+  printf("input name : ");
+  scanf("%s",&name);
+  system("clear");
+  printf("Hello, %s\n",name);
+  sleep(2);
+  system("clear");
+}
+
+int main()
+{
+	int stage=0;
+	system("clear");
+	yourname();
+    printf("Input stage : ");
+    scanf("%d",&stage);
+    map_reader(); 
+	stage--; //입력받은stage값을 배열에 그대로 넣기위함
+    where_is_bank(stage);
+	while(1){ //무한루프
+		playermove(input(), stage);
+     	system("clear");
+		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
+		map_print(stage);
+	}
+	return 0;
+}
+
