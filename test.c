@@ -10,7 +10,6 @@
 int X = 0; // X좌표깂
 int Y = 0;  //Y좌표값
 int moved = 0; 
-int keyinput = 0;
 int bank_location_X[5][20] = {0}; //은행위치 X좌표
 int bank_location_Y[5][20] = {0}; //은행위치 Y좌표
 char map[5][30][30]={0};    //불러온 맵
@@ -19,25 +18,26 @@ int count_bank[5]={0};  //은행의 수
 char name[10] = {0};  //플레이어 이름
 unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
 unsigned int time_stopped = 0; //일시정지된 시간
+char keyinput = 0; // 입력값
 
 void move(int keyinput, int stage);  //키입력과 스테이지를 입력받아 움직임
-void map_print(int);  
+void map_print(int, char);  
 void map_reader();
-int input();
 void playermove(int, int);
-void where_is_bank(int);
+void where_is_bank(void);
 void cleared();
 int clear_check(int);
 int time_calculate();
-void time_stop(void)  //일시정지에 사용, 시작후 정지까지의 시간 저장
+void time_stop(void);  //일시정지에 사용, 시작후 정지까지의 시간 저장
+void bank_recover(int,int);
 
-
-void map_print(int stage)
+void map_print(int stage, char keyinput)
 {
 	printf("   HELLO %s \n",name);
      for (int i=0; i<30; i++)  //맵 출력
          for (int j=0; j<30; j++)
              printf("%c",map_now[stage][i][j]);
+	 printf("(COMMAND) %c", keyinput);
 }
 
 void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
@@ -83,32 +83,58 @@ void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
 
 }
 
-int input(void) // 키입력
+void input(int stage) // 키입력
 {
-    int keyinput;
-    struct termios buf;
-    struct termios save;
-   tcgetattr(0, &save);
-   buf = save;
-   buf.c_lflag&=~(ICANON|ECHO);
-   buf.c_cc[VMIN] = 1;
-   buf.c_cc[VTIME] = 0;
-   tcsetattr(0, TCSAFLUSH, &buf);
-   keyinput = getchar();
-   tcsetattr(0,TCSAFLUSH,&save);
-   return keyinput;
+  struct termios buf;
+  struct termios save;
+  tcgetattr(0, &save);
+  buf = save;
+  buf.c_lflag&=~(ICANON|ECHO);
+  buf.c_cc[VMIN] = 1;
+  buf.c_cc[VTIME] = 0;
+  tcsetattr(0, TCSAFLUSH, &buf);
+  keyinput = getchar();
+  tcsetattr(0,TCSAFLUSH,&save);
+   
+	switch (keyinput){
+		case 'h' :
+		case 'j' :
+		case 'k' :
+		case 'l' :
+			move(keyinput, stage);
+			bank_recover(keyinput, stage);	
+			keyinput = 0;
+			break;
+		case 'u' :
+			break ;
+		case 'r' :
+			break ;
+		case 'n' :
+			break ;
+		case 'e' :
+			break ;
+		case 's' :
+			break ;
+		case 'f' :
+			break ;
+		case 'd' :
+			break ;
+		case 't' :
+			break ;
+		default :
+			break;
+	}
 }
 
 
-void playermove(int keyinput, int stage) //플레이어 이동, 은행 복귀
+
+
+void bank_recover(int keyinput, int stage) //은행 복귀
 {
-     if (keyinput == LEFT || keyinput == RIGHT || keyinput == UP || keyinput == DOWN){
-         move(keyinput, stage);
          for(int i=0;i<count_bank[stage];i++) // 플레이어 이동으로 인해 스페이스가 된 은행을 원상복구
              if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ')
                  map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]] = 'O';
 		 map_now[stage][0][0] = map[stage][0][0]; //오류 해결
-    }
 }
 
 void move (int keyinput, int stage){
@@ -247,12 +273,13 @@ void move (int keyinput, int stage){
         default :
             break;
     }
+			
 			}
 }
 
-void where_is_bank(int stage) //맵의 은행 위치의 좌표를 저장
+void where_is_bank(void) //맵의 은행 위치의 좌표를 저장
 {
-for (stage=0; stage<5; stage++){
+for (int stage=0; stage<5; stage++){
 	int count = 0;
 	for(Y = 0; Y<30; Y++) 
 	    for (X = 0; X<30; X++)
@@ -317,7 +344,6 @@ int time_calculate(void) //흐른 시간 측정
 	unsigned int time_passed;
 	time_passed = time_stopped + time(NULL) - time_start; //로스타임, 흐른시간을 더해줌
 	return time_passed;
-
 }
 			
 void yourname(void)
@@ -326,11 +352,11 @@ void yourname(void)
   scanf("%s",&name);
   system("clear");
   printf("Hello, %s\n",name);
-  sleep(2);
+  sleep(1);
   system("clear");
 }
 
-int main()
+int main(void)
 {
 	int stage=0;
 	system("clear");
@@ -339,14 +365,13 @@ int main()
     scanf("%d",&stage);
     map_reader(); 
 	stage--; //입력받은stage값을 배열에 그대로 넣기위함
-    where_is_bank(stage);
+    where_is_bank();
 	time_start = time(NULL); //시작 시간 저장
 	while(1){ //무한루프
-		playermove(input(), stage);
+		input(stage);
      	system("clear");
 		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
-		map_print(stage); //맵 출력
-		printf("%d\n",time_calculate);
+		map_print(stage, keyinput); //맵 출력
 	}
 	return 0;
 }
