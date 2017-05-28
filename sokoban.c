@@ -19,40 +19,42 @@ int main(void)
 {
 	  char ch=0;
 	  start();
-		for(int x;x<=30;x++)
-			for(int stage=0;stage<=4;stage++){
-	      while(1){
+	  for(int stage=0;stage<=4;stage++){
+	      while(1)
+	      {
 		      printf("hello %s",name);
-		      for(int y=0; y<WIDTH;y++){
+		      for(int y=0; y<WIDTH;y++)
+		      {
 			       for(int x=0; x<HEIGHT;x++)
-				  printf("%c",map[stage][y][x]);}
-	        printf("(Command)");
-          key_input(stage);
-          printf("\n");
-          system("clear");
-		    }
+				  printf("%c",map[stage][y][x]);
+		      }
+	              printf("(Command)");
+          	      key_input(stage);
+          	      printf("\n");
+          	      system("clear");
+	      }
   }
   return 0;
 }
 int scan_at_x(int stage)
 {
-	int x,y=0;
-	for(;y<=30;y++){
-		for(;x<=30;x++)
+	
+	for(int y=0;y<=30;y++){
+		for(int x=0;x<=30;x++)
 		{
 			if (map[stage][y][x]=='@')
-			return x;
-		}
+				return x;
+	}
 	}
 }
 int scan_at_y(int stage)
 {
-	int x,y=0;
-	for(;y<=30;y++){
-		for(;x<=30;x++)
+	
+	for(int y=0;y<=30;y++){
+		for(int x=0;x<=30;x++)
 		{
 			if (map[stage][y][x]=='@')
-			return y;
+				return y;
 		}
 	}
 }
