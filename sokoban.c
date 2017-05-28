@@ -6,7 +6,7 @@
 #define HEIGHT 30
 #define STAGE 5
 char name[10]={0};
-char map[STAGE][WIDTH][HEIGHT] = {0};
+char map[STAGE][WIDTH][HEIGHT]={0};
 void move(char,int);
 int scan_at_x(int);
 int scan_at_y(int);
@@ -19,45 +19,48 @@ int main(void)
 {
 	  char ch=0;
 	  start();
-		for(int stage=0;stage<=4;stage++){
-	    while(1){
-		    printf("hello %s",name);
-		    for(int y=0; y<WIDTH;y++){
-			     for(int x=0; x<HEIGHT;x++)
-					 		printf("%c",map[stage][y][x]);}
-	      printf("(Command)");
-        key_input(stage);
-        printf("\n");
-        system("clear");
-		   }
+	  for(int stage=0;stage<=4;stage++){
+	      while(1)
+	      {
+		      printf("hello %s",name);
+		      for(int y=0; y<WIDTH;y++)
+		      {
+			       for(int x=0; x<HEIGHT;x++)
+				  printf("%c",map[stage][y][x]);
+		      }
+	              printf("(Command)");
+          	      key_input(stage);
+          	      printf("\n");
+          	      system("clear");
+	      }
   }
   return 0;
 }
 int scan_at_x(int stage)
 {
-	for(int y = 0;y<=30;y++){
-		for(int x = 0;x<=30;x++)
+	
+	for(int y=0;y<=30;y++){
+		for(int x=0;x<=30;x++)
 		{
 			if (map[stage][y][x]=='@')
-			return x;
-		}
+				return x;
+	}
 	}
 }
 int scan_at_y(int stage)
 {
-	for(int y = 0;y<=30;y++){
-		for(int x = 0;x<=30;x++)
+	
+	for(int y=0;y<=30;y++){
+		for(int x=0;x<=30;x++)
 		{
 			if (map[stage][y][x]=='@')
-			return y;
+				return y;
 		}
 	}
 }
 void move (char key,int i){//i==스테이지
     int x = scan_at_x(i);
-		printf("%d", x);
     int y = scan_at_y(i);
-		printf(" %d", y);
     switch (key){
 
         case 'j' :
@@ -94,9 +97,8 @@ void move (char key,int i){//i==스테이지
 
         case 'k' :
 
-            if (map[i][y-1][x] == '#'){ //다음칸이 벽
+            if (map[i][y-1][x] == '#') //다음칸이 벽
                 return;
-							}
             else if (map[i][y-1][x] == ' '){ //다음칸이 공간
                 map[i][y-1][x] = '@';
                 map[i][y][x] = ' ';
@@ -123,7 +125,7 @@ void move (char key,int i){//i==스테이지
                     return;
                 }
             }
-            return;
+            break;
 
         case 'h' :
 
@@ -211,9 +213,9 @@ char key_input(int stage)
 {
   char key=getch();
   switch(key){
-    case 'h':move(key,stage); break;
-    case 'j':move(key,stage); break;
-    case 'k':move(key,stage); break;
+    case 'h':
+    case 'j':
+    case 'k':
     case 'l':move(key,stage); break;
     case 'u':printf("%c",key);break;
     case 'r':printf("%c",key);break;
@@ -236,40 +238,38 @@ void start(void)
   scanf("%s",&name);
   system("clear");
 
-  int x=0,y=-1,i=-1;
+  int x=0,y=0,i=-1;
   char ch;
-  int money=0,O=0;
+  int money=0,o=0;
   FILE *fp=fopen("map.txt","r");
   while(fscanf(fp,"%c",&ch) != EOF){
       if(ch=='m')
       {
         i++;
-        x = 0;
-				y = -1;
+        x,y=0;
         continue;
       }
       else if(ch=='a'||ch=='p')
         continue;
-      else if(ch=='e')
-        return;
-      if(ch=='$')
-          money++;
-      if(ch=='O')
-          O++;
+      else if(ch=='e'){
+        break;}
+      else if(ch=='$')
+              money++;
+      else if(ch=='O')
+                  o++;
       if(ch=='\n'){
                   y++;
-									x = 0;
-								}
-			map[i][y][x]=ch;
+      		  x=0;
+      }
+      
+      map[i][y][x]=ch;
       x++;
-
-
-
-
   }
-
-  if(money!=O)
+  if(money!=o)
+  {
     printf("돈,공간 오류");
+    exit(1);
+  }
   fclose(fp);
 
   return;
