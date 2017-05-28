@@ -260,12 +260,22 @@ for (stage=0; stage<5; stage++){
     }
 }
 
-void cleared(void)
+void cleared(void) //스테이지 클리어 시
 {
 	system("clear");
 	printf("축하합니다 클리어입니다\n");
 	sleep(3);
 	system("clear");
+}
+
+int cleared_all(void) //마지막 스테이지 클리어 시
+{
+	system("clear");
+	printf("모든 스테이지를 클리어 하셨습니다!\n");
+	printf("%s 님의 기록을 랭킹에 저장했습니다!\n");
+	sleep(5);
+	printf("See You Again!");
+	exit(0); //게임 종료
 }
 
 int clear_check(int stage)
@@ -275,9 +285,13 @@ int clear_check(int stage)
 	   if (map_now[stage][bank_location_Y[stage][count]][bank_location_X[stage][count]] == '$'){
 			success++;   //은행위치에 돈이 있으면 성공 +1
 			if (count_bank[stage] == success){  // 은행 갯수와 성공수가 같으면 클리어
-					cleared();
 					stage++;
-					return stage;
+					if (stage < 6){ //스테이지 4까지 완료 시
+						cleared();
+						return stage;
+					}
+					else if (stage == 6) //스테이지 5 완료 시
+						cleared_all();
 			}
 	   }
 	}
