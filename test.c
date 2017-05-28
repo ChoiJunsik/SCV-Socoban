@@ -1,31 +1,35 @@
 #include<stdio.h>
 #include<termio.h>
 #include<unistd.h>
+#include<time.h>
 #include<stdlib.h>
-#define LEFT 104
-#define RIGHT 108
-#define UP 107
-#define DOWN 106
-int X = 0;
-int Y = 0;
-int moved = 0;
+#define LEFT 'h'
+#define RIGHT 'l'
+#define UP 'k'
+#define DOWN 'j'
+int X = 0; // X좌표깂
+int Y = 0;  //Y좌표값
+int moved = 0; 
 int keyinput = 0;
-char player = 0;
-int bank_location_X[5][20] = {0};
-int bank_location_Y[5][20] = {0};
-char map[5][30][30]={0};
-char map_now[5][30][30] = {0};
-int count_bank[5]={0};
-char name[10] = {0};
+int bank_location_X[5][20] = {0}; //은행위치 X좌표
+int bank_location_Y[5][20] = {0}; //은행위치 Y좌표
+char map[5][30][30]={0};    //불러온 맵
+char map_now[5][30][30] = {0};  //이동후의 맵
+int count_bank[5]={0};  //은행의 수
+char name[10] = {0};  //플레이어 이름
+unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
+unsigned int time_stopped = 0; //일시정지된 시간
 
-void move(int, int);
-void map_print(int);
+void move(int keyinput, int stage);  //키입력과 스테이지를 입력받아 움직임
+void map_print(int);  
 void map_reader();
 int input();
 void playermove(int, int);
 void where_is_bank(int);
 void cleared();
 int clear_check(int);
+int time_calculate();
+void time_stop(void)  //일시정지에 사용, 시작후 정지까지의 시간 저장
 
 
 void map_print(int stage)
@@ -94,6 +98,7 @@ int input(void) // 키입력
    tcsetattr(0,TCSAFLUSH,&save);
    return keyinput;
 }
+
 
 void playermove(int keyinput, int stage) //플레이어 이동, 은행 복귀
 {
@@ -298,6 +303,22 @@ int clear_check(int stage)
 	return stage;
 
 }
+
+
+void time_stop(void)  //일시정지에 사용, 시작후 정지까지의 시간 저장
+{
+	time_stopped += time(NULL) - time_start; //로스타임을 계산해줌
+	time_start = time(NULL);  //시작시간을 현재시간으로 바꿈
+}
+
+
+int time_calculate(void) //흐른 시간 측정
+{
+	unsigned int time_passed;
+	time_passed = time_stopped + time(NULL) - time_start; //로스타임, 흐른시간을 더해줌
+	return time_passed;
+
+}
 			
 void yourname(void)
 {
@@ -319,11 +340,13 @@ int main()
     map_reader(); 
 	stage--; //입력받은stage값을 배열에 그대로 넣기위함
     where_is_bank(stage);
+	time_start = time(NULL); //시작 시간 저장
 	while(1){ //무한루프
 		playermove(input(), stage);
      	system("clear");
 		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
-		map_print(stage);
+		map_print(stage); //맵 출력
+		printf("%d\n",time_calculate);
 	}
 	return 0;
 }
