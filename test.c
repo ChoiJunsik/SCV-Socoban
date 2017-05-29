@@ -37,7 +37,7 @@ void map_print(int stage, char keyinput)
      for (int i=0; i<30; i++)  //맵 출력
          for (int j=0; j<30; j++)
              printf("%c",map_now[stage][i][j]);
-	 printf("(COMMAND) %c", keyinput);
+	 printf("\n(COMMAND) %c", keyinput);
 }
 
 void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
@@ -361,10 +361,7 @@ int main(void)
 	int stage=0;
 	system("clear");
 	yourname();
-    printf("Input stage : ");
-    scanf("%d",&stage);
     map_reader(); 
-	stage--; //입력받은stage값을 배열에 그대로 넣기위함
     where_is_bank();
 	time_start = time(NULL); //시작 시간 저장
 	while(1){ //무한루프
