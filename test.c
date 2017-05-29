@@ -9,7 +9,7 @@
 #define DOWN 'j'
 int X = 0; // X좌표깂
 int Y = 0;  //Y좌표값
-int moved = 0; 
+int moved = 0;
 int bank_location_X[5][20] = {0}; //은행위치 X좌표
 int bank_location_Y[5][20] = {0}; //은행위치 Y좌표
 char map[5][30][30]={0};    //불러온 맵
@@ -19,9 +19,10 @@ char name[10] = {0};  //플레이어 이름
 unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
 unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
+int new_stage=0;
 
 void move(int keyinput, int stage);  //키입력과 스테이지를 입력받아 움직임
-void map_print(int, char);  
+void map_print(int, char);
 void map_reader();
 void playermove(int, int);
 void where_is_bank(void);
@@ -31,8 +32,25 @@ int time_calculate();
 void time_stop(void);  //일시정지에 사용, 시작후 정지까지의 시간 저장
 void bank_recover(int,int);
 
+void new(void)
+{
+  for (int reading_stage = 0; reading_stage<5; reading_stage++) //가변 맵 배열에 불러온 맵 덮어쓰기
+    for (Y=0; Y<30; Y++)
+      for (X=0; X<30; X++)
+        map_now[reading_stage][Y][X] = map[reading_stage][Y][X];
+  system("clear");
+  map_print(0,0);
+  return;
+}
+
+void replay(char stage){
+			for (Y=0; Y<30; Y++)
+				for (X=0; X<30; X++)
+					map_now[stage][Y][X] = map[stage][Y][X];
+}
 void map_print(int stage, char keyinput)
 {
+    system("clear");
 	printf("   HELLO %s \n",name);
      for (int i=0; i<30; i++)  //맵 출력
          for (int j=0; j<30; j++)
@@ -55,10 +73,10 @@ void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
 				break; // 읽기 무한루프 빠져나감
 			}
 		}
-			
+
 		X=0;  //좌표 초기화
 		Y=0;
-		
+
 		while(1){  //쓰기 무한루프
 			fscanf(mapfile,"%c", &temp);
 			if (temp == '\n'){ //공백문장을 만나면 Y축 값 +1
@@ -73,9 +91,9 @@ void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
 	            X++;
 	        }
 	    }
-	}	
+	}
 	    fclose(mapfile);
-	
+
 		for (int reading_stage = 0; reading_stage<5; reading_stage++) //가변 맵 배열에 불러온 맵 덮어쓰기
 			for (Y=0; Y<30; Y++)
 				for (X=0; X<30; X++)
@@ -95,23 +113,33 @@ void input(int stage) // 키입력
   tcsetattr(0, TCSAFLUSH, &buf);
   keyinput = getchar();
   tcsetattr(0,TCSAFLUSH,&save);
-   
+
 	switch (keyinput){
 		case 'h' :
 		case 'j' :
 		case 'k' :
 		case 'l' :
 			move(keyinput, stage);
-			bank_recover(keyinput, stage);	
+			bank_recover(keyinput, stage);
 			keyinput = 0;
 			break;
 		case 'u' :
 			break ;
 		case 'r' :
+			replay(stage);
 			break ;
 		case 'n' :
+			new();
+			stage=0;
+			new_stage++;
 			break ;
 		case 'e' :
+			system("clear");
+			printf("SEE YOU %s....\n\n", name);
+			printf("\n(COMMAND) e");
+			printf("\n");
+			sleep(3);
+			exit(0);
 			break ;
 		case 's' :
 			break ;
@@ -273,7 +301,7 @@ void move (int keyinput, int stage){
         default :
             break;
     }
-			
+
 			}
 }
 
@@ -281,7 +309,7 @@ void where_is_bank(void) //맵의 은행 위치의 좌표를 저장
 {
 for (int stage=0; stage<5; stage++){
 	int count = 0;
-	for(Y = 0; Y<30; Y++) 
+	for(Y = 0; Y<30; Y++)
 	    for (X = 0; X<30; X++)
 	        if (map_now[stage][Y][X] == 'O'){
 	            bank_location_X[stage][count] = X;
@@ -327,6 +355,8 @@ int clear_check(int stage)
 			}
 	   }
 	}
+	if (new_stage != 0)
+		stage = 0;
 	return stage;
 
 }
@@ -335,7 +365,6 @@ int clear_check(int stage)
 void time_stop(void)  //일시정지에 사용, 시작후 정지까지의 시간 저장
 {
 	time_stopped += time(NULL) - time_start; //로스타임을 계산해줌
-	time_start = time(NULL);  //시작시간을 현재시간으로 바꿈
 }
 
 
@@ -345,7 +374,7 @@ int time_calculate(void) //흐른 시간 측정
 	time_passed = time_stopped + time(NULL) - time_start; //로스타임, 흐른시간을 더해줌
 	return time_passed;
 }
-			
+
 void yourname(void)
 {
   printf("input name : ");
@@ -361,15 +390,13 @@ int main(void)
 	int stage=0;
 	system("clear");
 	yourname();
-    map_reader(); 
+    map_reader();
     where_is_bank();
 	time_start = time(NULL); //시작 시간 저장
 	while(1){ //무한루프
 		input(stage);
-     	system("clear");
 		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
 		map_print(stage, keyinput); //맵 출력
 	}
 	return 0;
 }
-
