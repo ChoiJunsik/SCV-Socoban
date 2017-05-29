@@ -1,4 +1,4 @@
-#include<stdio.h>
+﻿#include<stdio.h>
 #include<termio.h>
 #include<unistd.h>
 #include<time.h>
@@ -9,6 +9,7 @@
 #define DOWN 'j'
 int X = 0; // X좌표깂
 int Y = 0;  //Y좌표값
+int moved = 0; 
 int bank_location_X[5][20] = {0}; //은행위치 X좌표
 int bank_location_Y[5][20] = {0}; //은행위치 Y좌표
 char map[5][30][30]={0};    //불러온 맵
@@ -18,9 +19,6 @@ char name[10] = {0};  //플레이어 이름
 unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
 unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
-clock_t start_time, end_time, diff_time;
-
-
 
 void move(int keyinput, int stage);  //키입력과 스테이지를 입력받아 움직임
 void map_print(int, char);  
@@ -29,7 +27,7 @@ void playermove(int, int);
 void where_is_bank(void);
 void cleared();
 int clear_check(int);
-long time_calculate();
+int time_calculate();
 void time_stop(void);  //일시정지에 사용, 시작후 정지까지의 시간 저장
 void bank_recover(int,int);
 
@@ -340,18 +338,11 @@ int clear_check(int stage)
 }
 
 
-void time_stop(void)  //일시정지에 사용, 시작후 정지까지의 시간 저장
+int time_calculate(void) //흐른 시간 측정
 {
-	end_time = clock();
-	diff_time += diff_time + end_time - start_time;
-	start_time = 0;
-}
-
-
-long time_calculate(void) //흐른 시간 측정
-{
-	diff_time = (diff_time + end_time - start_time)/1000;
-	return diff_time;
+	unsigned int time_passed;
+	time_passed = time_stopped + time(NULL) - time_start; //로스타임, 흐른시간을 더해줌
+	return time_passed;
 }
 			
 void yourname(void)
@@ -380,4 +371,5 @@ int main(void)
 	}
 	return 0;
 }
+
 

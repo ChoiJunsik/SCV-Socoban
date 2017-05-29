@@ -3,4 +3,4 @@
 지난 시간을 불러올 때 : time_calculate();
 			.2l(엘) 로 불러옴
 
-게임을 재개할 때 : start_time = clock();
+게임을 재개할 때 : start_time = time(NULL);
