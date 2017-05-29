@@ -131,6 +131,7 @@ void input(int stage) // 키입력
 			new();
 			stage=0;
 			new_stage++;
+			time_start = time(NULL);
 			break ;
 		case 'e' :
 			system("clear");
