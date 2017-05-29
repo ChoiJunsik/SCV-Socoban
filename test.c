@@ -19,6 +19,7 @@ char name[10] = {0};  //플레이어 이름
 unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
 unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
+int stage=0;
 
 void move(int keyinput, int stage);  //키입력과 스테이지를 입력받아 움직임
 void map_print(int, char);
@@ -53,9 +54,8 @@ void load_game(void){
 		FILE *savefile;
 		savefile = fopen("sokoban", "r");
 		if (savefile == NULL){
-			printf("오류 : 세이브 파일을 열 수 없습니다.\n");
-			exit(1);
-		}
+			printf("세이브 파일이 없습니다.\n");
+			}
 		time_start = time(NULL);
 		fscanf(savefile, "%d, %s\n", &stage, &name);
 		for (Y=0; Y<30; Y++)
@@ -169,7 +169,7 @@ void input(int stage) // 키입력
 			save_game(stage);
 			break ;
 		case 'f' :
-			//load_game();
+			load_game();
 			break ;
 		case 'd' :
 			break ;
@@ -405,7 +405,7 @@ void yourname(void)
 
 int main(void)
 {
-	int stage=0;
+
 	system("clear");
 	yourname();
     map_reader();
