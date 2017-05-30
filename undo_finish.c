@@ -8,103 +8,52 @@
 #define RIGHT 'l'
 #define UP 'k'
 #define DOWN 'j'
-#define NOT_MOVED 3
-#define MOVED_WITH_MONEY 2
-#define JUST_MOVED 1
-char check_num[6]={0};
-char undo[6]={0};
+#define NOT_MOVED 3 // undo실행시 전에 움직이지 않았음을 알리는 값
+#define MOVED_WITH_MONEY 2//undo실행시 전에 돈과 움직였음을 알리는 값
+#define JUST_MOVED 1//undo실행시 전에 혼자 움징였음을 알리는 값
+
+//****************************전역변수**********************************
+char check_num[6]={0};//undo사용을 위해 필요한 전에 움직일떄의 상황
+char undo[6]={0};//undo사용을 위해 필요한 전의 이동 명령어
 int X = 0; // X좌표깂
 int Y = 0;  //Y좌표값
-int moved = 0;
-int bank_location_X[5][20] = {0}; //은행위치 X좌표
-int bank_location_Y[5][20] = {0}; //은행위치 Y좌표
+int bank_location_X[5][20] = {0}; //O위치 X좌표
+int bank_location_Y[5][20] = {0}; //O위치 Y좌표
 char map[5][30][30]={0};    //불러온 맵
 char map_now[5][30][30] = {0};  //이동후의 맵
-int count_bank[5]={0};  //은행의 수
+int count_bank[5]={0};  //O의 수
 char name[10] = {0};  //플레이어 이름
 unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
 unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
-int stage=0;
-void undo_fuc(char ,char);
+int stage=0;//현재 스테이지
+
+
+//***************************함수원형***********************************
+void undo_fuc(char ,char);//undo주요함수
 char move(int keyinput, int stage);  //키입력과 스테이지를 입력받아 움직임
-void map_print(int, char);
-void map_reader();
-void playermove(int, int);
+void map_print(int, char);//맵 출력
+void map_reader();//맵 읽기
+void playermove(int, int);//
 void where_is_bank(void);
-void cleared();
-int clear_check(int);
+void cleared();//클리어 한후 출력 함수
+int clear_check(int);//클리어 했는지를 체크하는 함수
 int time_stop(void);  //일시정지에 사용, 시작후 정지까지의 시간 저장
-void bank_recover(int,int);
-void save_game(int);
-void load_game(void);
-void undo_input(void);
-void undo_bbagi(void);
-void undo_bbagi(){
-	for(int i=4;i>0;i--)
-	{
-		undo[i+1]=undo[i];
-		check_num[i+1]=check_num[i];
-		check_num[i]=0;
-		undo[i]=0;
-	}
-}
-void undo_input(){
-	for(int i=0;i<5;i++){
-		undo[i]=undo[i+1];
-		check_num[i]=check_num[i+1];}
-	undo[5]=keyinput;
-}
-void save_game(int stage){
-		FILE *savefile;
-		savefile = fopen("sokoban", "w");
-		if (savefile == NULL){
-			printf("오류 : 세이브 파일을 열 수 없습니다.\n");
-			exit(1);
-   	}
-		time_stop();
-		fprintf(savefile, "%d, %s\n", stage, name);
-		for (Y=0; Y<30; Y++)
-			for (X=0; X<30; X++)
-				fprintf(savefile, "%c", map_now[stage][Y][X]);
-		fprintf(savefile, "\n%d", time_stop());
-		fclose(savefile);
-
-}
-
-void load_game(void){
-		FILE *savefile;
-		savefile = fopen("sokoban", "r");
-		if (savefile == NULL){
-			printf("세이브 파일이 없습니다.\n");
-			}
-		time_start = time(NULL);
-		fscanf(savefile, "%d, %s\n", &stage, &name);
-		for (Y=0; Y<30; Y++)
-			for (X=0; X<30; X++)
-				fscanf(savefile, "%c", &map_now[stage][Y][X]);
-		fscanf(savefile, "\n%d", &time_stopped);
-		fclose(savefile);
-
-}
-
-
-void replay(char stage){
-			for (Y=0; Y<30; Y++)
-				for (X=0; X<30; X++)
-					map_now[stage][Y][X] = map[stage][Y][X];
-}
-void map_print(int stage, char keyinput)
-{
+void bank_recover(int,int);//' '로 바뀐 O를 다시 O 로 바꿔주는 함수
+void save_game(int);//게임 저장
+void load_game(void);//게임 불러오기
+void undo_input(void);//언두에 필요한 이동키와 상황을 배열에 저장
+void undo_bbagi(void);//이미 undo한 이동키와 상황을 빼줌
+void replay(char stage);
+//**************게임을 실행하기전 준비에 필요한 함수**************(모두가 기여)
+void map_print(int stage, char keyinput){
 	printf("   HELLO %s \n",name);
      for (int i=0; i<30; i++)  //맵 출력
          for (int j=0; j<30; j++)
              printf("%c",map_now[stage][i][j]);
 	 printf("\n(COMMAND) %c", keyinput);
 }
-
-void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
-{
+void map_reader (){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
     FILE *mapfile;
     mapfile = fopen("map", "r");
 		if (mapfile == NULL){
@@ -149,76 +98,16 @@ void map_reader () // 맵 파일에서 맵을 읽어들이고 맵을 저장
 					map_now[reading_stage][Y][X] = map[reading_stage][Y][X];
 
 }
-
-void input(int stage) // 키입력
-{
-  struct termios buf;
-  struct termios save;
-  tcgetattr(0, &save);
-  buf = save;
-  buf.c_lflag&=~(ICANON|ECHO);
-  buf.c_cc[VMIN] = 1;
-  buf.c_cc[VTIME] = 0;
-  tcsetattr(0, TCSAFLUSH, &buf);
-  keyinput = getchar();
-  tcsetattr(0,TCSAFLUSH,&save);
-  	
-	switch (keyinput){
-		case 'h' :
-		case 'j' :
-		case 'k' :
-		case 'l' :
-			undo_input();
-			check_num[5]=move(keyinput, stage);
-			
-			bank_recover(keyinput, stage);
-			keyinput = 0;
-			break;
-		case 'u' :	
-			undo_fuc(undo[5],check_num[5]);
-			undo_bbagi();
-			bank_recover(keyinput, stage);
-			break;
-			
-		case 'r' :
-			replay(stage);
-			break ;
-		case 'n' :
-			break ;
-		case 'e' :
-			system("clear");
-			printf("SEE YOU %s....\n\n", name);
-			printf("\n(COMMAND) e");
-			printf("\n");
-			sleep(3);
-			exit(0);
-			break ;
-		case 's' :
-			save_game(stage);
-			break ;
-		case 'f' :
-			load_game();
-			break ;
-		case 'd' :
-			break ;
-		case 't' :
-			break ;
-		default :
-			break;
-	}
+void yourname(void){
+  printf("input name : ");
+  scanf("%s",&name);
+  system("clear");
+  printf("Hello, %s\n",name);
+  sleep(1);
+  system("clear");
 }
 
-
-
-
-void bank_recover(int keyinput, int stage) //은행 복귀
-{
-         for(int i=0;i<count_bank[stage];i++) // 플레이어 이동으로 인해 스페이스가 된 은행을 원상복구
-             if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ')
-                 map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]] = 'O';
-		 map_now[stage][0][0] = map[stage][0][0]; //오류 해결
-}
-
+//**************************이동함수********************************(기여자:이상현)
 char move (int keyinput, int stage){
     for (Y=0; Y<30; Y++) // 플레이어 위치 찾기
         for(X=0; X<30; X++)
@@ -228,11 +117,11 @@ char move (int keyinput, int stage){
         case DOWN :
 
             if (map_now[stage][Y+1][X] == '#') //다음칸이 벽
-                return NOT_MOVED;
+                return NOT_MOVED;//움직이지 않았음을 알려줌
             else if (map_now[stage][Y+1][X] == ' ' ){ //다음칸이 공간
                 map_now[stage][Y][X] = ' ';
                 map_now[stage][Y+1][X] = '@';
-                    return JUST_MOVED;
+                    return JUST_MOVED;//혼자 움직였음울 알려줌
             }
             else if (map_now[stage][Y+1][X] == 'O'){ //다음칸이 은행
                 map_now[stage][Y][X] = ' ';
@@ -246,7 +135,7 @@ char move (int keyinput, int stage){
                     map_now[stage][Y][X] = ' ';
                     map_now[stage][Y+1][X] = '@';
                     map_now[stage][Y+2][X] = '$';
-                    return MOVED_WITH_MONEY;
+                    return MOVED_WITH_MONEY;//돈과 움직였음을 알려줌
                 }
     else if (map_now[stage][Y+2][X] == ' '){ //다다음칸이 공간
                     map_now[stage][Y][X] = ' ';
@@ -254,7 +143,7 @@ char move (int keyinput, int stage){
                     map_now[stage][Y+2][X] = '$';
                     return MOVED_WITH_MONEY;
                 }
-            
+
 	    }
 	    break;
 
@@ -360,9 +249,15 @@ char move (int keyinput, int stage){
 			}
 }
 
-void where_is_bank(void) //맵의 은행 위치의 좌표를 저장
-{
-for (int stage=0; stage<5; stage++){
+//*******************O(돈의 도착 장소)와 관련된 함수******************(기여자:이상현)
+void bank_recover(int keyinput, int stage) {
+         for(int i=0;i<count_bank[stage];i++) // 플레이어 이동으로 인해 스페이스가 된 은행을 원상복구
+             if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ')
+                 map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]] = 'O';
+		 map_now[stage][0][0] = map[stage][0][0]; //오류 해결
+}
+void where_is_bank(void){
+	for (int stage=0; stage<5; stage++){
 	int count = 0;
 	for(Y = 0; Y<30; Y++)
 	    for (X = 0; X<30; X++)
@@ -375,16 +270,16 @@ for (int stage=0; stage<5; stage++){
     }
 }
 
-void cleared(void) //스테이지 클리어 시
-{
+
+//*********************클리어관련함수**********************(기여자:이상현)
+void cleared(void){//스테이지 클리어 시
 	system("clear");
 	printf("축하합니다 클리어입니다\n");
 	sleep(3);
 	system("clear");
 }
+int cleared_all(void){ //마지막 스테이지 클리어 시
 
-int cleared_all(void) //마지막 스테이지 클리어 시
-{
 	system("clear");
 	printf("모든 스테이지를 클리어 하셨습니다!\n");
 	printf("%s 님의 기록을 랭킹에 저장했습니다!\n");
@@ -392,9 +287,7 @@ int cleared_all(void) //마지막 스테이지 클리어 시
 	printf("See You Again!");
 	exit(0); //게임 종료
 }
-
-int clear_check(int stage)
-{
+int clear_check(int stage){
 	int success=0;
 	for (int count = 0; count<20; count++){
 	   if (map_now[stage][bank_location_Y[stage][count]][bank_location_X[stage][count]] == '$'){
@@ -414,23 +307,218 @@ int clear_check(int stage)
 
 }
 
-
-int time_stop(void)  //일시정지에 사용, 시작후 정지까지의 시간 저장
-{
+//**********************시간 함수*****************************(기여자:이상현)
+int time_stop(void){//일시정지에 사용, 시작후 정지까지의 시간 저장
 	time_stopped += time(NULL) - time_start; //로스타임을 계산해줌
 	return time_stopped;
 }
 
 
-void yourname(void)
-{
-  printf("input name : ");
-  scanf("%s",&name);
-  system("clear");
-  printf("Hello, %s\n",name);
-  sleep(1);
-  system("clear");
+//***********************키입력을 받는 함수***********************(기여자:박세준,이상현)
+void input(int stage) {
+  struct termios buf;
+  struct termios save;
+  tcgetattr(0, &save);
+  buf = save;
+  buf.c_lflag&=~(ICANON|ECHO);
+  buf.c_cc[VMIN] = 1;
+  buf.c_cc[VTIME] = 0;
+  tcsetattr(0, TCSAFLUSH, &buf);
+  keyinput = getchar();
+  tcsetattr(0,TCSAFLUSH,&save);
+
+	switch (keyinput){
+		case 'h' :
+		case 'j' :
+		case 'k' :
+		case 'l' :
+			undo_input();//입력받은 이동 명령어와 그 움직임으로 인해
+									 // 플레이어가 이동했는지,돈과함께이동했는지,안이동했는지를 배열에 저장함
+			check_num[5]=move(keyinput, stage);
+
+			bank_recover(keyinput, stage);
+			keyinput = 0;
+			break;
+		case 'u' :
+			undo_fuc(undo[5],check_num[5]);
+			undo_bbagi();//한번 언두한 이동 명령어와 상황을 없애준다
+			bank_recover(keyinput, stage);
+			break;
+
+		case 'r' :
+			replay(stage);
+			break ;
+		case 'n' :
+			break ;
+		case 'e' :
+			system("clear");
+			printf("SEE YOU %s....\n\n", name);
+			printf("\n(COMMAND) e");
+			printf("\n");
+			sleep(3);
+			exit(0);
+			break ;
+		case 's' :
+			save_game(stage);
+			break ;
+		case 'f' :
+			load_game();
+			break ;
+		case 'd' :
+			break ;
+		case 't' :
+			break ;
+		default :
+			break;
+	}
 }
+
+//***********************undo함수***************************(기여자:박세준)
+void undo_fuc (char input,char check){
+    for (Y=0; Y<30; Y++) // 플레이어 위치 찾기
+        for(X=0; X<30; X++)
+   		 if (map_now[stage][Y][X] == '@'){
+    		switch (input){
+
+        	case DOWN :
+
+					if(check==NOT_MOVED)//전 상황에서 같이 움직였는지 아닌지를 체크함
+						return;
+						if(check==MOVED_WITH_MONEY)//전 상황에서 같이 움직였는지 아닌지를 체크함
+						{
+							map_now[stage][Y-1][X] = '@';
+							map_now[stage][Y][X] = '$';
+							map_now[stage][Y+1][X] = ' ';
+							return;
+						}
+						if(check==JUST_MOVED)	//전 상황에서 같이 움직였는지 아닌지를 체크함
+						{
+							map_now[stage][Y-1][X] = '@';
+							map_now[stage][Y][X] = ' ';
+							return;
+						}
+						break;
+
+
+        	case UP :
+
+					if(check==NOT_MOVED)
+						return;
+						if(check==MOVED_WITH_MONEY)
+						{
+							map_now[stage][Y+1][X] = '@';
+							map_now[stage][Y][X] = '$';
+							map_now[stage][Y-1][X] = ' ';
+							return;
+						}
+						if(check==JUST_MOVED)
+						{
+							map_now[stage][Y+1][X] = '@';
+							map_now[stage][Y][X] = ' ';
+							return;
+						}
+						break;
+
+
+        	case LEFT :
+
+					if(check==NOT_MOVED)
+						return;
+						if(check==MOVED_WITH_MONEY)
+						{
+							map_now[stage][Y][X+1] = '@';
+							map_now[stage][Y][X] = '$';
+							map_now[stage][Y][X-1] = ' ';
+							return;
+						}
+						if(check==JUST_MOVED)
+						{
+							map_now[stage][Y][X+1] = '@';
+							map_now[stage][Y][X] = ' ';
+							return;
+						}
+						break;
+
+        	case RIGHT :
+					if(check==NOT_MOVED)
+						return;
+						if(check==MOVED_WITH_MONEY)
+						{
+							map_now[stage][Y][X-1] = '@';
+							map_now[stage][Y][X] = '$';
+							map_now[stage][Y][X+1] = ' ';
+							return;
+						}
+						if(check==JUST_MOVED)
+						{
+							map_now[stage][Y][X-1] = '@';
+							map_now[stage][Y][X] = ' ';
+							return;
+						}
+						break;
+
+        	default :
+            break;
+    }
+
+	}
+}
+void undo_bbagi(){
+	for(int i=4;i>0;i--)
+	{
+		undo[i+1]=undo[i];
+		check_num[i+1]=check_num[i];
+		check_num[i]=0;
+		undo[i]=0;
+	}
+}
+void undo_input(){
+	for(int i=0;i<5;i++){
+		undo[i]=undo[i+1];
+		check_num[i]=check_num[i+1];}
+	undo[5]=keyinput;
+}
+
+//*********************세이브앤로드**************************(기여자:우호진)
+void save_game(int stage){
+		FILE *savefile;
+		savefile = fopen("sokoban", "w");
+		if (savefile == NULL){
+			printf("오류 : 세이브 파일을 열 수 없습니다.\n");
+			exit(1);
+   	}
+		time_stop();
+		fprintf(savefile, "%d, %s\n", stage, name);
+		for (Y=0; Y<30; Y++)
+			for (X=0; X<30; X++)
+				fprintf(savefile, "%c", map_now[stage][Y][X]);
+		fprintf(savefile, "\n%d", time_stop());
+		fclose(savefile);
+
+}
+void load_game(void){
+		FILE *savefile;
+		savefile = fopen("sokoban", "r");
+		if (savefile == NULL){
+			printf("세이브 파일이 없습니다.\n");
+			}
+		time_start = time(NULL);
+		fscanf(savefile, "%d, %s\n", &stage, &name);
+		for (Y=0; Y<30; Y++)
+			for (X=0; X<30; X++)
+				fscanf(savefile, "%c", &map_now[stage][Y][X]);
+		fscanf(savefile, "\n%d", &time_stopped);
+		fclose(savefile);
+
+}
+
+//*****************리플레이********************************(기여자:박세준)
+void replay(char stage){
+			for (Y=0; Y<30; Y++)
+				for (X=0; X<30; X++)
+					map_now[stage][Y][X] = map[stage][Y][X];
+}
+
 
 int main(void)
 {
@@ -447,97 +535,4 @@ int main(void)
 map_print(stage, keyinput); //맵 출력
 	}
 	return 0;
-}
-
-void undo_fuc (char input,char check){
-    for (Y=0; Y<30; Y++) // 플레이어 위치 찾기
-        for(X=0; X<30; X++)
-   		 if (map_now[stage][Y][X] == '@'){
-    switch (input){
-
-        case DOWN :
-
-				if(check==NOT_MOVED)
-					return;
-				if(check==MOVED_WITH_MONEY)
-				{
-					map_now[stage][Y-1][X] = '@';
-					map_now[stage][Y][X] = '$';
-					map_now[stage][Y+1][X] = ' ';
-					return;
-				}
-				if(check==JUST_MOVED)	
-				{
-					map_now[stage][Y-1][X] = '@';
-					map_now[stage][Y][X] = ' ';
-					return;
-				}
-				break;
-
-
-        case UP :
-
-				if(check==NOT_MOVED)
-					return;
-				if(check==MOVED_WITH_MONEY)
-				{
-					map_now[stage][Y+1][X] = '@';
-					map_now[stage][Y][X] = '$';
-					map_now[stage][Y-1][X] = ' ';
-					return;
-				}
-				if(check==JUST_MOVED)	
-				{
-					map_now[stage][Y+1][X] = '@';
-					map_now[stage][Y][X] = ' ';
-					return;
-				}
-				break;
-
-
-        case LEFT :
-
-				if(check==NOT_MOVED)
-					return;
-				if(check==MOVED_WITH_MONEY)
-				{
-					map_now[stage][Y][X+1] = '@';
-					map_now[stage][Y][X] = '$';
-					map_now[stage][Y][X-1] = ' ';
-					return;
-				}
-				if(check==JUST_MOVED)	
-				{
-					map_now[stage][Y][X+1] = '@';
-					map_now[stage][Y][X] = ' ';
-					return;
-				}
-				break;
-
-
-        case RIGHT :
-				if(check==NOT_MOVED)
-					return;
-				if(check==MOVED_WITH_MONEY)
-				{
-					map_now[stage][Y][X-1] = '@';
-					map_now[stage][Y][X] = '$';
-					map_now[stage][Y][X+1] = ' ';
-					return;
-				}
-				if(check==JUST_MOVED)	
-				{
-					map_now[stage][Y][X-1] = '@';
-					map_now[stage][Y][X] = ' ';
-					return;
-				}
-				break;
-
-
-
-        default :
-            break;
-    }
-
-			}
 }
