@@ -29,6 +29,7 @@ char keyinput = 0; // 입력값
 int stage=0;//현재 스테이지
 int new_stage=0;
 
+
 //***************************함수원형***********************************
 
 char move(int keyinput, int stage);  //키입력과 스테이지를 입력받아 움직임
@@ -101,6 +102,8 @@ void map_print(int stage, char keyinput){
 	 printf("\n(COMMAND) %c", keyinput);
 }
 void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
+		int money=0;
+		int o=0;
     FILE *mapfile;
     mapfile = fopen("map", "r");
 		if (mapfile == NULL){
@@ -109,14 +112,17 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
    }
     char temp=0;
 		char count_map=0;
-		for (int reading_stage = 0; reading_stage<5 ; reading_stage++){
-		while(1){  //읽기 무한루프
-    	    fscanf(mapfile,"%c",&temp);
-			if (temp == 'a'){
-			   for (int i = 0; i<2 ; i++)
+		for (int reading_stage = 0; reading_stage<5 ; reading_stage++)
+		{
+			money=0; //스테이지 넘어갈때 오류 체크하기 위한 개수 초기화
+			o=0;
+			while(1){  //읽기 무한루프
+    	    	fscanf(mapfile,"%c",&temp);
+						if (temp == 'a'){
+			   			for (int i = 0; i<2 ; i++)
     	    		fscanf(mapfile,"%c",&temp); // p, \n 버림
-				break; // 읽기 무한루프 빠져나감
-			}
+							break; // 읽기 무한루프 빠져나감
+						}
 		}
 
 		X=0;  //좌표 초기화
@@ -131,11 +137,21 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
    	        }
 	        else if (temp == 'm' || temp == 'e') //m,e 를 만나면 쓰기 무한루프 빠져나감
 	            break;
-	        else{
+	        else {
 	            map[reading_stage][Y][X] = temp;
 	            X++;
 	        }
+					 if(temp=='O')	//오류검사(최준식,우호진,박세준,이상현)
+						o++;				 //오류검사(최준식,우호진,박세준,이상현)
+					else if(temp=='$')//오류검사(최준식,우호진,박세준,이상현)
+						money++;       //오류검사(최준식,우호진,박세준,이상현)
 	    }
+
+									if (o!=money){   //오류검사(최준식,우호진,박세준,이상현)
+										printf("ERROR\n");//오류검사(최준식,우호진,박세준,이상현)
+										fclose(mapfile);//오류검사(최준식,우호진,박세준,이상현)
+										exit(1);//오류검사(최준식,우호진,박세준,이상현)
+									}
 	}
 	    fclose(mapfile);
 
@@ -408,6 +424,7 @@ void input(int stage) {
 			new_stage++;
 			break ;
 		case 'e' :
+			save_game(stage);
 			system("clear");
 			printf("SEE YOU %s....\n\n", name);
 			printf("\n(COMMAND) e");
