@@ -69,15 +69,12 @@ void new(void);
 //***********************new함수*********************(최준식)
 void new(void)
 {
-	for(int i=0;i<=6;i++){
-   check_num[i]=0;
-	 undo[i]=0;}
-
-	undo_count = 0;
+	undo_count = 0; // 카운트 초기화
 	for(int i=0;i<6;i++){
   check_num[i]=0;
   undo[i]=0;
-  }
+  } // check_num과 undo 배열 초기화
+
 
   for (int reading_stage = 0; reading_stage<5; reading_stage++) //가변 맵 배열에 불러온 맵 덮어쓰기
     for (Y=0; Y<30; Y++)
