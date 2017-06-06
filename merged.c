@@ -27,7 +27,7 @@ unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
 int stage=0;//현재 스테이지
 int new_stage=0; // new함수 사용여부
-int undo_count = 0;
+int undo_count = 0; // undo 5회제한
 
 
 //***************************함수원형***********************************
@@ -56,7 +56,7 @@ void undo_input(void);//언두에 필요한 이동키와 상황을 배열에 저
 void undo_bbagi(void);//이미 undo한 이동키와 상황을 빼줌
 void undo_fuc(char ,char);//undo주요함수
 
-void replay(char stage);
+void replay(char stage); // 맵, undo_count 초기화
 
 
 void ranking_print(void);
@@ -69,6 +69,9 @@ void new(void);
 //***********************new함수*********************(최준식)
 void new(void)
 {
+	for(int i=0;i<=6;i++)
+   check_num[i]=0;
+
 	undo_count = 0;
 	for(int i=0;i<6;i++){
   check_num[i]=0;
@@ -722,6 +725,8 @@ void load_game(void){
 
 //*****************리플레이********************************(기여자:박세준)
 void replay(char stage){
+		for(int i=0;i<=6;i++)
+   		check_num[i]=0;
 	    undo_count = 0;
 			for (Y=0; Y<30; Y++)
 				for (X=0; X<30; X++)
