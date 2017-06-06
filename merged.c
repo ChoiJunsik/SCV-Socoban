@@ -1,4 +1,3 @@
-﻿
 #include<stdio.h>
 #include<termio.h>
 #include<unistd.h>
@@ -10,7 +9,7 @@
 #define DOWN 'j'
 #define NOT_MOVED 3 // undo실행시 전에 움직이지 않았음을 알리는 값
 #define MOVED_WITH_MONEY 2//undo실행시 전에 돈과 움직였음을 알리는 값
-#define JUST_MOVED 1//undo실행시 전에 혼자 움직였음을 알리는 값
+#define JUST_MOVED 1//undo실행시 전에 혼자 움징였음을 알리는 값
 
 //****************************전역변수**********************************
 char check_num[6]={0};//undo사용을 위해 필요한 전에 움직일떄의 상황
@@ -86,7 +85,7 @@ void new(void)
 void help(void)
 {
 	system("clear");
-  printf("- h(왼쪽), j(아래), k(위), l(오른쪽) : 창고지기 조정\n- u(undo) : 되돌리기, 최대 5번 할 수 있음\n- r(replay) : 현재 맵을 처음부터 다시 시작(게임시간은 계속 유지)\n- n(new) : 첫 번째 맵부터 다시 시작(현재까지의 시간 기록 삭제)\n- e(exit) : 게임 종료.\n- s(save) : 저장\n- f(file load) : 게임로드\n- d(display help) : 명령 내용 출력\n- t(top) : 전체 순위. t+숫자 : 해당 맵의 순위\n- d(display): 도움말 종료\n(command)");
+  printf("- h(왼쪽), j(아래), k(위), l(오른쪽) : 창고지기 조정\n- u : 되돌리기, 최대 5번\n- r : 현재 맵을 처음부터 다시 시작(게임시간 유지)\n- n : 첫 번째 맵부터 다시 시작(현재까지의 시간 기록 삭제)\n- e : 게임 종료.\n- s : 저장\n- f : 게임로드\n- d : 명령 내용 출력\n- t : 전체 순위. t+숫자 : 해당 맵의 순위\n- d : 도움말 종료\n");
 	while(1){
 	getch();
   if (keyinput=='d')
@@ -579,6 +578,10 @@ int ranking_reset(int stage){
 }
 //***********************undo함수***************************(기여자:박세준,최준식)
 void undo_fuc (char input,char check){
+	static int undo_count = 0;
+	undo_count++;
+	if (undo_count>5)
+						return;
     for (Y=0; Y<30; Y++) // 플레이어 위치 찾기
         for(X=0; X<30; X++)
    		 if (map_now[stage][Y][X] == '@'){
