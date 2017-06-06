@@ -69,8 +69,9 @@ void new(void);
 //***********************new함수*********************(최준식)
 void new(void)
 {
-	for(int i=0;i<=6;i++)
+	for(int i=0;i<=6;i++){
    check_num[i]=0;
+	 undo[i]=0;}
 
 	undo_count = 0;
 	for(int i=0;i<6;i++){
@@ -725,8 +726,9 @@ void load_game(void){
 
 //*****************리플레이********************************(기여자:박세준)
 void replay(char stage){
-		for(int i=0;i<=6;i++)
-   		check_num[i]=0;
+	for(int i=0;i<=6;i++){
+	   check_num[i]=0;
+		 undo[i]=0;}
 	    undo_count = 0;
 			for (Y=0; Y<30; Y++)
 				for (X=0; X<30; X++)
