@@ -1,4 +1,4 @@
-
+﻿
 #include<stdio.h>
 #include<termio.h>
 #include<unistd.h>
@@ -10,7 +10,7 @@
 #define DOWN 'j'
 #define NOT_MOVED 3 // undo실행시 전에 움직이지 않았음을 알리는 값
 #define MOVED_WITH_MONEY 2//undo실행시 전에 돈과 움직였음을 알리는 값
-#define JUST_MOVED 1//undo실행시 전에 혼자 움징였음을 알리는 값
+#define JUST_MOVED 1//undo실행시 전에 혼자 움직였음을 알리는 값
 
 //****************************전역변수**********************************
 char check_num[6]={0};//undo사용을 위해 필요한 전에 움직일떄의 상황
