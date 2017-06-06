@@ -6,7 +6,7 @@
 #define LEFT 'h'
 #define RIGHT 'l'
 #define UP 'k'
-#define DOWN 'j'
+#define DOWN 'j' // 이동키 값
 #define NOT_MOVED 3 // undo실행시 전에 움직이지 않았음을 알리는 값
 #define MOVED_WITH_MONEY 2//undo실행시 전에 돈과 움직였음을 알리는 값
 #define JUST_MOVED 1//undo실행시 전에 혼자 움징였음을 알리는 값
@@ -26,7 +26,8 @@ unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
 unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
 int stage=0;//현재 스테이지
-int new_stage=0;
+int new_stage=0; // new함수 사용여부
+int undo_count = 0;
 
 
 //***************************함수원형***********************************
@@ -35,13 +36,13 @@ char move(int keyinput, int stage);  //키입력과 스테이지를 입력받아
 
 void map_print(int, char);//맵 출력
 void map_reader();//맵 읽기
-void yourname(void);
+void yourname(void); // 이름 입력함수
 
 
 //클리어
 void cleared();//클리어 한후 출력 함수
 int clear_check(int);//클리어 했는지를 체크하는 함수
-int cleared_all(void);
+int cleared_all(void); // 모두 클리어할시 출력후 프로그램 종료 함수
 
 int time_stop(void);  //일시정지에 사용, 시작후 정지까지의 시간 저장
 
@@ -68,6 +69,7 @@ void new(void);
 //***********************new함수*********************(최준식)
 void new(void)
 {
+	undo_count = 0;
 	for(int i=0;i<6;i++){
   check_num[i]=0;
   undo[i]=0;
@@ -578,7 +580,6 @@ int ranking_reset(int stage){
 }
 //***********************undo함수***************************(기여자:박세준,최준식)
 void undo_fuc (char input,char check){
-	static int undo_count = 0;
 	undo_count++;
 	if (undo_count>5)
 						return;
@@ -721,6 +722,7 @@ void load_game(void){
 
 //*****************리플레이********************************(기여자:박세준)
 void replay(char stage){
+	    undo_count = 0;
 			for (Y=0; Y<30; Y++)
 				for (X=0; X<30; X++)
 					map_now[stage][Y][X] = map[stage][Y][X];
