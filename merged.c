@@ -27,7 +27,6 @@ unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
 int stage=0;//현재 스테이지
 int new_stage=0; // new함수 사용여부
-int undo_count = 0; // undo 5회제한
 
 
 //***************************함수원형***********************************
@@ -482,7 +481,7 @@ void input(int stage) {
 		case 'k' :
 		case 'l' :
 			undo_input();//입력받은 이동 명령어와 그 움직임으로 인해
-									 // 플레이어가 이동했는지,돈과함께이동했는지,안이동했는지를 배열에 저장함
+				     // 플레이어가 이동했는지,돈과함께이동했는지,안이동했는지를 배열에 저장함
 			check_num[5]=move(keyinput, stage);
 
 			bank_recover(keyinput, stage);
@@ -658,96 +657,89 @@ int ranking_reset(int stage){
 }
 //***********************undo함수***************************(기여자:박세준,최준식)
 void undo_fuc (char input,char check){
-	undo_count++;
-	if (undo_count>5)
-						return;
+	
     for (Y=0; Y<30; Y++) // 플레이어 위치 찾기
-        for(X=0; X<30; X++)
-   		 if (map_now[stage][Y][X] == '@'){
-    		switch (input){
-
-        	case DOWN :
-
+    	for(X=0; X<30; X++)
+   		if (map_now[stage][Y][X] == '@'){
+    			switch (input){
+	        		case DOWN :
 					if(check==NOT_MOVED)//전 상황에서 같이 움직였는지 아닌지를 체크함
 						return;
-						if(check==MOVED_WITH_MONEY)//전 상황에서 같이 움직였는지 아닌지를 체크함
-						{
-							map_now[stage][Y-1][X] = '@';
-							map_now[stage][Y][X] = '$';
-							map_now[stage][Y+1][X] = ' ';
-							return;
-						}
-						if(check==JUST_MOVED)	//전 상황에서 같이 움직였는지 아닌지를 체크함
-						{
-							map_now[stage][Y-1][X] = '@';
-							map_now[stage][Y][X] = ' ';
-							return;
-						}
-						break;
+					if(check==MOVED_WITH_MONEY)//전 상황에서 같이 움직였는지 아닌지를 체크함
+					{
+						map_now[stage][Y-1][X] = '@';
+						map_now[stage][Y][X] = '$';
+						map_now[stage][Y+1][X] = ' ';
+						return;
+					}
+					if(check==JUST_MOVED)	//전 상황에서 같이 움직였는지 아닌지를 체크함
+					{
+						map_now[stage][Y-1][X] = '@';
+						map_now[stage][Y][X] = ' ';
+						return;	
+					}
+					break;
 
 
-        	case UP :
-
+        			case UP :
 					if(check==NOT_MOVED)
 						return;
-						if(check==MOVED_WITH_MONEY)
-						{
-							map_now[stage][Y+1][X] = '@';
-							map_now[stage][Y][X] = '$';
-							map_now[stage][Y-1][X] = ' ';
-							return;
-						}
-						if(check==JUST_MOVED)
-						{
-							map_now[stage][Y+1][X] = '@';
-							map_now[stage][Y][X] = ' ';
-							return;
-						}
-						break;
+					if(check==MOVED_WITH_MONEY)
+					{
+						map_now[stage][Y+1][X] = '@';
+						map_now[stage][Y][X] = '$';
+						map_now[stage][Y-1][X] = ' ';
+						return;
+					}
+					if(check==JUST_MOVED)
+					{
+						map_now[stage][Y+1][X] = '@';
+						map_now[stage][Y][X] = ' ';
+						return;
+					}
+					break;
 
-
-        	case LEFT :
-
+		        	case LEFT :
 					if(check==NOT_MOVED)
 						return;
-						if(check==MOVED_WITH_MONEY)
-						{
-							map_now[stage][Y][X+1] = '@';
-							map_now[stage][Y][X] = '$';
-							map_now[stage][Y][X-1] = ' ';
-							return;
-						}
-						if(check==JUST_MOVED)
-						{
-							map_now[stage][Y][X+1] = '@';
-							map_now[stage][Y][X] = ' ';
-							return;
-						}
-						break;
+					if(check==MOVED_WITH_MONEY)
+					{
+						map_now[stage][Y][X+1] = '@';
+						map_now[stage][Y][X] = '$';
+						map_now[stage][Y][X-1] = ' ';
+						return;
+					}
+					if(check==JUST_MOVED)
+					{
+						map_now[stage][Y][X+1] = '@';
+						map_now[stage][Y][X] = ' ';
+						return;
+					}
+					break;
 
-        	case RIGHT :
+        			case RIGHT :
 					if(check==NOT_MOVED)
 						return;
-						if(check==MOVED_WITH_MONEY)
-						{
-							map_now[stage][Y][X-1] = '@';
-							map_now[stage][Y][X] = '$';
-							map_now[stage][Y][X+1] = ' ';
-							return;
-						}
-						if(check==JUST_MOVED)
-						{
-							map_now[stage][Y][X-1] = '@';
-							map_now[stage][Y][X] = ' ';
-							return;
-						}
-						break;
+					if(check==MOVED_WITH_MONEY)
+					{
+						map_now[stage][Y][X-1] = '@';
+						map_now[stage][Y][X] = '$';
+						map_now[stage][Y][X+1] = ' ';
+						return;
+					}
+					if(check==JUST_MOVED)
+					{
+						map_now[stage][Y][X-1] = '@';
+						map_now[stage][Y][X] = ' ';
+						return;
+					}
+					break;
 
-        	default :
-            break;
-    }
+        			default :
+            				break;
+    			}
 
-	}
+		}
 }
 void undo_bbagi(){
 	for(int i=4;i>0;i--)
