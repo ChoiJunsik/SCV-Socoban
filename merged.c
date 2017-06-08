@@ -27,7 +27,7 @@ unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
 int stage=0;//현재 스테이지
 int new_stage=0; // new함수 사용여부
-
+int undo_count=0;
 
 //***************************함수원형***********************************
 
@@ -349,11 +349,11 @@ printf("     ;.      :sEBBg2r7XGO:  .7.  ,B   :B   BB B,  B  BS    .B  BGr SB  r
 printf("     BBBBBBgJ;.    ,        :;   Bs   BR  :B      B  BB     B. B    BJ  B    JSK5B  ;\n");
 printf("      ,:;rJ5ZEGgBQDr...    .L   OQ    BB  BD      B.r:B:    BE B    ;B  B   J7rirB  :\n");
 printf("     ...         .::. ...  Lc   Q.    BB  B       .MM,:B,   HB..     B. B   H; .,B7 U\n");
-printf("     BBBBBBBBBBBBQQDgPr..  ,.  RB     BR rB ::.     ;  ;BRs:.        Ba B   HBH1:rB B\n");
-printf("                      .    s.  B,     BZ BBBBBBB:        ,r,  :UK61. Jg B   E:    rBB\n");
-printf("     1LsJJww515US5KU2c.   ::  5B      BHBBBBBBBBB  7KEOPB   1BBBBBBB;,Bss   B:     :B\n");
-printf("     Q725XXpKpKPPZPZKSi.  Lr  BH     ,Q,BBQBQBBBB  :.   sQ  BBQBBBQBB BB    B      rB\n");
-printf("     7r;;:;:;;rr77ss2U52r ;;  B.    :QB KBBBBBBB   B:    Q  BBBBBBBBa .B    BL7    ;B\n");
+printf("     BBBBBBBBBBBBQQDgPr..  ,.  RB     BR rBB::.     ;  ;BRs:.        Ba B   HBH1:rB B\n");
+printf("                      .    s.  B,     BZ BB   BB:        ,r,  :UK61. Jg B   E:    rBB\n");
+printf("     1LsJJww515US5KU2c.   ::  5B      BHBB     BB  7KEOPB   1BB    B;,Bss   B:     :B\n");
+printf("     Q725XXpKpKPPZPZKSi.  Lr  BH     ,Q,B      BB  :.   sQ  BB      B BB    B      rB\n");
+printf("     7r;;:;:;;rr77ss2U52r ;;  B.    :QB KBB   BB   B:    Q  BBB    Ba .B    BL7    ;B\n");
 printf("     ;rsJHpgMBBBBQwr;;,.  .. :B    QB1    rPUv,    B.    p   ;KQBBg;  ,B   ;R.UBD;RD;\n");
 printf("     BBBBBBBBGHsL7r:,,,  .U, JB   LBs              pO    R:           1Q   Oc   DBQs7\n");
 printf("     sr;,,..,:;ri;,..,,.  r, gR   DB,               Q,  ,B            BB   B    BB  B\n");
@@ -556,8 +556,7 @@ void ranking_print(void){
 
 		getch();
 
-		if (keyinput == 't'){
-			time
+		if (keyinput == 't')
 			return;
 		if (keyinput == '1'){
 			system("clear");
@@ -602,16 +601,17 @@ void ranking_print(void){
 		}
 	}
 }
+
 int ranking_reset(int stage){
 	FILE *rank;
-	rank = fopen("ranking", "rt");
+	rank = fopen("ranking", "r");
 	if (rank == NULL){
 		printf("랭킹파일 에러.\n");
 		}
 	int gotrash;
 	int trashforname[10] = {0};
-	int record[5][6];
-	int stage_amin;
+	int record[5][6]={0};
+	int stage_amin=0;
 	char name_amin[5][6][10] = {0};
 	for (int k = 0; k < 5; k += 1){
 		fscanf(rank, "===%d===\n", &stage_amin);
@@ -624,7 +624,7 @@ int ranking_reset(int stage){
 	record[stage][5] = time_stop();
 
 	fclose(rank);
-	rank = fopen("ranking", "wt");
+	rank = fopen("ranking", "w");
 	//정렬
 	for (int outplay = 0; outplay < 5; outplay += 1){
 		for (int inplay = 0; inplay < 5 - outplay; inplay += 1){
@@ -814,7 +814,7 @@ int main(void)
 		input(stage);
      	system("clear");
 		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
-	map_print(stage, keyinput); //맵 출력
+		map_print(stage, keyinput); //맵 출력
 	}
 	return 0;
 }
