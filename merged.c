@@ -340,34 +340,34 @@ void where_is_bank(void){
 void cleared(void){//스테이지 클리어 시
 	ranking_reset(stage);
 	system("clear");
-printf("     BBQEK2J7r;irsUGRBBBgpwUc;.  Z7    5Op:                               :aE7   ,1P:\n");
-printf("     EBQBQBQBBBBD1r::,:;LSZ7sSL ;;   ZBr          i2        ;D              .SBX   :J\n");
-printf("         ,;LUEMBBBBBKUw5L;     :i   .B           gB:         ER                JBE  .\n");
-printf("     BBQZsr,,.::LXBBBHr,r7    L:   7B   s    X  BSQ           B:                 1,. \n");
-printf("      ;1OBBBBBQBg6pBBBBp     rJ   LB   gX   BX.B; B  s.       JB OBQ   s:         D; \n");
-printf("     ;.      :sEBBg2r7XGO:  .7.  ,B   :B   BB B,  B  BS    .B  BGr SB  rB   .;:. O1  \n");
-printf("     BBBBBBgJ;.    ,        :;   Bs   BR  :B      B  BB     B. B    BJ  B    JSK5B  ;\n");
-printf("      ,:;rJ5ZEGgBQDr...    .L   OQ    BB  BD      B.r:B:    BE B    ;B  B   J7rirB  :\n");
-printf("     ...         .::. ...  Lc   Q.    BB  B       .MM,:B,   HB..     B. B   H; .,B7 U\n");
-printf("     BBBBBBBBBBBBQQDgPr..  ,.  RB     BR rBB::.     ;  ;BRs:.        Ba B   HBH1:rB B\n");
-printf("                      .    s.  B,     BZ BB   BB:        ,r,  :UK61. Jg B   E:    rBB\n");
-printf("     1LsJJww515US5KU2c.   ::  5B      BHBB     BB  7KEOPB   1BB    B;,Bss   B:     :B\n");
-printf("     Q725XXpKpKPPZPZKSi.  Lr  BH     ,Q,B      BB  :.   sQ  BB      B BB    B      rB\n");
-printf("     7r;;:;:;;rr77ss2U52r ;;  B.    :QB KBB   BB   B:    Q  BBB    Ba .B    BL7    ;B\n");
-printf("     ;rsJHpgMBBBBQwr;;,.  .. :B    QB1    rPUv,    B.    p   ;KQBBg;  ,B   ;R.UBD;RD;\n");
-printf("     BBBBBBBBGHsL7r:,,,  .U, JB   LBs              pO    R:           1Q   Oc   DBQs7\n");
-printf("     sr;,,..,:;ri;,..,,.  r, gR   DB,               Q,  ,B            BB   B    BB  B\n");
-printf("     cgvL151J7r::::;r7i. .v  B5 , sQR               :RsJG.            Bs  ;Q   BB   B\n");
-printf("     Sc7r;:::;rJXGZwrr,  :r  B7;Z  BBM                                B   B1 :BB    B\n");
-printf("     .;;r7s1HKHJ7;:,,:;. 7s  gswR   sBBS                             sBwB,B :QB     B\n");
-printf("     JcssJ7;,. :rr7JJs;  ;7  JOXP     cBBBEv,                    :1QBBBE PQ   B6    B\n");
-printf("     S:,..,;UQBBZvsLr:,,. :.  BS6 B.  ZBBBBBBBBBBBBBRPSss7sJpBBBBBB6OB.  BB   ,BJ   B\n");
-printf("     .;7s6BBQBKL7r:rLSX6r :;  pBQBQ  :BBBB U ,i,r2PRBBBBQBBBBQU;     v  GBB    cQr  B\n");
-printf("     rsEBBRsr:::vaD6EgRa: :L.  rBQ   BBBB5,B SE                 7L :     QB     GB. B\n");
-printf("     OGs,.:;:rwZKHXP5L,    .   OB   cBBBBBgD EB                 BJ H     BB      BQ 7\n\n");
+	printf("     BBQEK2J7r;irsUGRBBBgpwUc;.  Z7    5Op:                               :aE7   ,1P:\n");
+	printf("     EBQBQBQBBBBD1r::,:;LSZ7sSL ;;   ZBr          i2        ;D              .SBX   :J\n");
+	printf("         ,;LUEMBBBBBKUw5L;     :i   .B           gB:         ER                JBE  .\n");
+	printf("     BBQZsr,,.::LXBBBHr,r7    L:   7B   s    X  BSQ           B:                 1,. \n");
+	printf("      ;1OBBBBBQBg6pBBBBp     rJ   LB   gX   BX.B; B  s.       JB OBQ   s:         D; \n");
+	printf("     ;.      :sEBBg2r7XGO:  .7.  ,B   :B   BB B,  B  BS    .B  BGr SB  rB   .;:. O1  \n");
+	printf("     BBBBBBgJ;.    ,        :;   Bs   BR  :B      B  BB     B. B    BJ  B    JSK5B  ;\n");
+	printf("      ,:;rJ5ZEGgBQDr...    .L   OQ    BB  BD      B.r:B:    BE B    ;B  B   J7rirB  :\n");
+	printf("     ...         .::. ...  Lc   Q.    BB  B       .MM,:B,   HB..     B. B   H; .,B7 U\n");
+	printf("     BBBBBBBBBBBBQQDgPr..  ,.  RB     BR rBB::.     ;  ;BRs:.        Ba B   HBH1:rB B\n");
+	printf("                      .    s.  B,     BZ BB   BB:        ,r,  :UK61. Jg B   E:    rBB\n");
+	printf("     1LsJJww515US5KU2c.   ::  5B      BHBB     BB  7KEOPB   1BB    B;,Bss   B:     :B\n");
+	printf("     Q725XXpKpKPPZPZKSi.  Lr  BH     ,Q,B      BB  :.   sQ  BB      B BB    B      rB\n");
+	printf("     7r;;:;:;;rr77ss2U52r ;;  B.    :QB KBB   BB   B:    Q  BBB    Ba .B    BL7    ;B\n");
+	printf("     ;rsJHpgMBBBBQwr;;,.  .. :B    QB1    rPUv,    B.    p   ;KQBBg;  ,B   ;R.UBD;RD;\n");
+	printf("     BBBBBBBBGHsL7r:,,,  .U, JB   LBs              pO    R:           1Q   Oc   DBQs7\n");
+	printf("     sr;,,..,:;ri;,..,,.  r, gR   DB,               Q,  ,B            BB   B    BB  B\n");
+	printf("     cgvL151J7r::::;r7i. .v  B5 , sQR               :RsJG.            Bs  ;Q   BB   B\n");
+	printf("     Sc7r;:::;rJXGZwrr,  :r  B7;Z  BBM                                B   B1 :BB    B\n");
+	printf("     .;;r7s1HKHJ7;:,,:;. 7s  gswR   sBBS                             sBwB,B :QB     B\n");
+	printf("     JcssJ7;,. :rr7JJs;  ;7  JOXP     cBBBEv,                    :1QBBBE PQ   B6    B\n");
+	printf("     S:,..,;UQBBZvsLr:,,. :.  BS6 B.  ZBBBBBBBBBBBBBRPSss7sJpBBBBBB6OB.  BB   ,BJ   B\n");
+	printf("     .;7s6BBQBKL7r:rLSX6r :;  pBQBQ  :BBBB U ,i,r2PRBBBBQBBBBQU;     v  GBB    cQr  B\n");
+	printf("     rsEBBRsr:::vaD6EgRa: :L.  rBQ   BBBB5,B SE                 7L :     QB     GB. B\n");
+	printf("     OGs,.:;:rwZKHXP5L,    .   OB   cBBBBBgD EB                 BJ H     BB      BQ 7\n\n");
 
-printf("                스테이지 %d 클리어!!            좀 더 노오오오오오오력 하죠!!!! \n",stage+1);
-printf("			%s 님의 기록을 랭킹에 저장했습니다!\n",name);
+	printf("                스테이지 %d 클리어!!            좀 더 노오오오오오오력 하죠!!!! \n",stage+1);
+	printf("			%s 님의 기록을 랭킹에 저장했습니다!\n",name);
 	sleep(3);
 	system("clear");
 	for(int i=0;i<=6;i++) //undo 횟수 초기화
@@ -377,55 +377,55 @@ int cleared_all(void){ //마지막 스테이지 클리어 시
 
 	system("clear");
 	ranking_reset(stage);
-printf("     77v7v7v7v777v7v7v77777777r7r7r77v77r7iiirrr::r7r;r77v7v7v777\n");
-printf("     7v77777v7v7v7777r7rr;;:::::::;;rr7r::LJL:,1BB::LE;;77777777v\n");
-printf("     v77777v7v7v77rri:::;JPQBBBBQB6J::,,MBBBBBB,DBBr:BB:i77777777\n");
-printf("     7v77777v77r7;::LQBBBBBBBBBBBBBBBBBBB:   rBB. BB7,BQ:rv7v7v7v\n");
-printf("     v7v777777r;,sQBBBG;            .5QBQ      BB; BB.QB7r7v777v7\n");
-printf("     7v7v7v77;:pBQBr       a            BB      BB,:g;7BU;77v7777\n");
-printf("     77777rr:7BBO         BB   ss        BB      BQ,:r;:r77v7v7v7\n");
-printf("     7777rr,BBB           BQ .BBL         Bw     :BL;r7r77v7v7777\n");
-printf("     v7777,BBr           .B.MB2      HQBBBBB      BB:7777v777v777\n");
-printf("     7v77:RB             HBBBswBBBBBBBBUJJHBB     RB:r777777v7777\n");
-printf("     v7v;:BMsBS:         vBBQP:  ZBBs::;;i:cB;    :Bcr7v77777v777\n");
-printf("     77r:DB ,XBBBBRr   pBBBBBBB:BBU,;:::::r:BB    .Ba;77v777v777v\n");
-printf("     777,BB     wBBBBSBBM7vB27BBB::;:aBBBK::BB    :Bs;7v7v777v777\n");
-printf("     77r,BB BBBQXwBBBBaZ7:LQ2:::;:,JBBB2BBi:MQ    sBr;77v777v777v\n");
-printf("     v77,BB     :B6 BsrBB;r;i7r::KBB; BBQBr:RB    BB:r7v7v777v7v7\n");
-printf("     7vr:EB    BB   BB::r7vrr:;BBBBBQBBBBB:,BQ    BB:r77777777v77\n");
-printf("     777r:BB   Z:JQBBp;7rr::JBBB   BBBBBg:;:BB   :BP:77v77777v777\n");
-printf("     7v77:rBB2BBBBRr::::;sBQBBB57BBBBBB7:r:BB    BB,r7v7v7v777v77\n");
-printf("     v7v7;rBBBO7,,,::7BBBBg   BBBBQBBB,;r:6BJ   QB;irv7v7777777v7\n");
-printf("     7v77,BB  .,:JBBBBg, QBSBBBBBBBQ::r;:BBS   sB5:r7777v777v7v77\n");
-printf("     v77r;JBQBBBBBX :B: gBBBBBBBBZ,:;;:UBB:   .BB,r77v7v7v777v7v7\n");
-printf("     7v77r;;BBB6BBrsBQBBBBBBBBBL::r;:JBBB     BB,r77v7v77777v7777\n");
-printf("     77v77rr::,:,gBBw BBBBBBs::;;::HQBB      BB,;77777777v7v7v7v7\n");
-printf("     7v7v77r7r7rr::.,BBQRr,::;::1BBBB        QB,7777v7v777v7v7777\n");
-printf("     77v7v77777v77r:BB:.,::::sBBQB;         :B:;r77v777v77777v7v7\n");
-printf("     7777777v7v7777,BBB1vLRBBBBr         LBBBBB:;7777777v777v777v\n");
-printf("     v7v7v7v7v7777;JBXQBBBBB           ;BBU: ;BB;r7v77777v777v7v7\n");
-printf("     7v7v7v7v777v7r7Br   BBQ           1B      BB:7777v777v7v7v7v\n");
-printf("     7777777777777r:pBB    BB             B:   JB;rv77777v7v777v7\n");
-printf("     7v7v7v7v7v7v777:rBBBsrBB            6B    ZB:r7v7v777v7v7v7v\n");
-printf("     v7v7v77777v7777ri,vQBBBB          .gBB    BB:rv77777v7v7v7v7\n");
-printf("     7v77777v77777v7v77;:,.UB         BQBB    BQ:;7777v7v7v77777v\n");
-printf("     77v777v7777777v7777rr;:Bg      ;BB:,BBBQBB:;77v7v7v777v777v7\n");
-printf("     7v77777v7v7v7777777v77,BB      BB ;;:5QR7:i77v7777777v77777v\n");
-printf("     77v7v77777v7v7v7v7v7vrirBR     BB :rr;::rr7777v777v7v7v7v777\n");
-printf("     7v7v7v7v7v7v7v7v77777vr:aBB    :BB2:r7r77v7v7v777v777v777v77\n");
-printf("     v7v7v77777v777v77777777r:1BQ:   BBBB,r77v7v777v7v77777v77777\n");
-printf("     7777777v777v777v77777777r;:BBBrsQBUBw:rv7v7v7777rrr7rv7v7777\n");
-printf("     7777v77777v7v7v7v7v7777777r,:BBBU. BBJ;777v777;,;r:,;r777777\n");
-printf("     77777777777v7v7v77777v7777rr.BB,JBBBBO:v77777r7BBBBBr,r77v77\n");
-printf("     v777v7777777v7v777v7v777v7vriiBBBBBBX:7777v77:BBBBBBBG,;7777\n");
-printf("     777v77777v7v7v77777777777v77r;7BBS;,:r7v77777;UBBBBB6BQ7;777\n");
-printf("     v777v77777v77777v77777v7v7777ri,::rr77v777v77r:JBB ;7BBB;rv7\n");
-printf("     7v7v7v7777777v7v7777777v7v7777r7r77v7v7v777777r:sBBBBBBM;777\n");
-printf("     v777v77777v77777v7v77777v7v7v7v777v777v7v777777r:;BBB5,,7r77\n\n");
+	printf("     77v7v7v7v777v7v7v77777777r7r7r77v77r7iiirrr::r7r;r77v7v7v777\n");
+	printf("     7v77777v7v7v7777r7rr;;:::::::;;rr7r::LJL:,1BB::LE;;77777777v\n");
+	printf("     v77777v7v7v77rri:::;JPQBBBBQB6J::,,MBBBBBB,DBBr:BB:i77777777\n");
+	printf("     7v77777v77r7;::LQBBBBBBBBBBBBBBBBBBB:   rBB. BB7,BQ:rv7v7v7v\n");
+	printf("     v7v777777r;,sQBBBG;            .5QBQ      BB; BB.QB7r7v777v7\n");
+	printf("     7v7v7v77;:pBQBr       a            BB      BB,:g;7BU;77v7777\n");
+	printf("     77777rr:7BBO         BB   ss        BB      BQ,:r;:r77v7v7v7\n");
+	printf("     7777rr,BBB           BQ .BBL         Bw     :BL;r7r77v7v7777\n");
+	printf("     v7777,BBr           .B.MB2      HQBBBBB      BB:7777v777v777\n");
+	printf("     7v77:RB             HBBBswBBBBBBBBUJJHBB     RB:r777777v7777\n");
+	printf("     v7v;:BMsBS:         vBBQP:  ZBBs::;;i:cB;    :Bcr7v77777v777\n");
+	printf("     77r:DB ,XBBBBRr   pBBBBBBB:BBU,;:::::r:BB    .Ba;77v777v777v\n");
+	printf("     777,BB     wBBBBSBBM7vB27BBB::;:aBBBK::BB    :Bs;7v7v777v777\n");
+	printf("     77r,BB BBBQXwBBBBaZ7:LQ2:::;:,JBBB2BBi:MQ    sBr;77v777v777v\n");
+	printf("     v77,BB     :B6 BsrBB;r;i7r::KBB; BBQBr:RB    BB:r7v7v777v7v7\n");
+	printf("     7vr:EB    BB   BB::r7vrr:;BBBBBQBBBBB:,BQ    BB:r77777777v77\n");
+	printf("     777r:BB   Z:JQBBp;7rr::JBBB   BBBBBg:;:BB   :BP:77v77777v777\n");
+	printf("     7v77:rBB2BBBBRr::::;sBQBBB57BBBBBB7:r:BB    BB,r7v7v7v777v77\n");
+	printf("     v7v7;rBBBO7,,,::7BBBBg   BBBBQBBB,;r:6BJ   QB;irv7v7777777v7\n");
+	printf("     7v77,BB  .,:JBBBBg, QBSBBBBBBBQ::r;:BBS   sB5:r7777v777v7v77\n");
+	printf("     v77r;JBQBBBBBX :B: gBBBBBBBBZ,:;;:UBB:   .BB,r77v7v7v777v7v7\n");
+	printf("     7v77r;;BBB6BBrsBQBBBBBBBBBL::r;:JBBB     BB,r77v7v77777v7777\n");
+	printf("     77v77rr::,:,gBBw BBBBBBs::;;::HQBB      BB,;77777777v7v7v7v7\n");
+	printf("     7v7v77r7r7rr::.,BBQRr,::;::1BBBB        QB,7777v7v777v7v7777\n");
+	printf("     77v7v77777v77r:BB:.,::::sBBQB;         :B:;r77v777v77777v7v7\n");
+	printf("     7777777v7v7777,BBB1vLRBBBBr         LBBBBB:;7777777v777v777v\n");
+	printf("     v7v7v7v7v7777;JBXQBBBBB           ;BBU: ;BB;r7v77777v777v7v7\n");
+	printf("     7v7v7v7v777v7r7Br   BBQ           1B      BB:7777v777v7v7v7v\n");
+	printf("     7777777777777r:pBB    BB             B:   JB;rv77777v7v777v7\n");
+	printf("     7v7v7v7v7v7v777:rBBBsrBB            6B    ZB:r7v7v777v7v7v7v\n");
+	printf("     v7v7v77777v7777ri,vQBBBB          .gBB    BB:rv77777v7v7v7v7\n");
+	printf("     7v77777v77777v7v77;:,.UB         BQBB    BQ:;7777v7v7v77777v\n");
+	printf("     77v777v7777777v7777rr;:Bg      ;BB:,BBBQBB:;77v7v7v777v777v7\n");
+	printf("     7v77777v7v7v7777777v77,BB      BB ;;:5QR7:i77v7777777v77777v\n");
+	printf("     77v7v77777v7v7v7v7v7vrirBR     BB :rr;::rr7777v777v7v7v7v777\n");
+	printf("     7v7v7v7v7v7v7v7v77777vr:aBB    :BB2:r7r77v7v7v777v777v777v77\n");
+	printf("     v7v7v77777v777v77777777r:1BQ:   BBBB,r77v7v777v7v77777v77777\n");
+	printf("     7777777v777v777v77777777r;:BBBrsQBUBw:rv7v7v7777rrr7rv7v7777\n");
+	printf("     7777v77777v7v7v7v7v7777777r,:BBBU. BBJ;777v777;,;r:,;r777777\n");
+	printf("     77777777777v7v7v77777v7777rr.BB,JBBBBO:v77777r7BBBBBr,r77v77\n");
+	printf("     v777v7777777v7v777v7v777v7vriiBBBBBBX:7777v77:BBBBBBBG,;7777\n");
+	printf("     777v77777v7v7v77777777777v77r;7BBS;,:r7v77777;UBBBBB6BQ7;777\n");
+	printf("     v777v77777v77777v77777v7v7777ri,::rr77v777v77r:JBB ;7BBB;rv7\n");
+	printf("     7v7v7v7777777v7v7777777v7v7777r7r77v7v7v777777r:sBBBBBBM;777\n");
+	printf("     v777v77777v77777v7v77777v7v7v7v777v777v7v777777r:;BBB5,,7r77\n\n");
 
-printf("                모든 스테이지 클리어!!          해냈습니다!!!! \n");
-printf("	            %s 님의 기록을 랭킹에 저장했습니다!\n",name);
-printf("                    %s 님, 플레이 해 주셔서 감사합니다!",name);
+	printf("                모든 스테이지 클리어!!          해냈습니다!!!! \n");
+	printf("	            %s 님의 기록을 랭킹에 저장했습니다!\n",name);
+	printf("                    %s 님, 플레이 해 주셔서 감사합니다!",name);
 	sleep(3);
 	exit(0); //게임 종료
 }
@@ -770,7 +770,13 @@ void save_game(int stage){
 		for (Y=0; Y<30; Y++)
 			for (X=0; X<30; X++)
 				fprintf(savefile, ".%c", map_now[stage][Y][X]);
-		fprintf(savefile, "\n%d", time_stop());
+		fprintf(savefile, "\n%d\n", time_stop());
+		for (int q = 0; q < 6; q += 1){
+			fprintf(savefile, ".%d", check_num[q]);
+		}
+		for (int q = 0; q < 6; q += 1){
+			fprintf(savefile, ".%c", undo[q]);
+		}
 		fclose(savefile);
 
 }
@@ -785,7 +791,13 @@ void load_game(void){
 		for (Y=0; Y<30; Y++)
 			for (X=0; X<30; X++)
 				fscanf(savefile, ".%c", &map_now[stage][Y][X]);
-		fscanf(savefile, "\n%d", &time_stopped);
+		fscanf(savefile, "\n%d\n", &time_stopped);
+		for (int q = 0; q < 6; q += 1){
+			fscanf(savefile, ".%d", &check_num[q]);
+		}
+		for (int q = 0; q < 6; q += 1){
+			fscanf(savefile, ".%c", &undo[q]);
+		}
 		fclose(savefile);
 
 }
@@ -812,7 +824,7 @@ int main(void)
 	time_start = time(NULL); //시작 시간 저장
 	while(1){ //무한루프
 		input(stage);
-     	system("clear");
+    system("clear");
 		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
 		map_print(stage, keyinput); //맵 출력
 	}
