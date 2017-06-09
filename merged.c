@@ -82,7 +82,7 @@ void new(void)
   system("clear");
 
 	time_start = time(NULL);
-	time_stopped = 0; // 경과시간 초기화 
+	time_stopped = 0; // 경과시간 초기화
 
   return;
 }
@@ -152,7 +152,7 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
 	    }
 
 									if (o!=money){   //오류검사(최준식,우호진,박세준,이상현)
-										printf("ERROR\n");//오류검사(최준식,우호진,박세준,이상현)
+										printf("error:돈,공간의 개수가 일치하지않음\n");//오류검사(최준식,우호진,박세준,이상현)
 										fclose(mapfile);//오류검사(최준식,우호진,박세준,이상현)
 										exit(1);//오류검사(최준식,우호진,박세준,이상현)
 									}
@@ -439,7 +439,7 @@ int clear_check(int stage){
 					if (stage < 5){ //스테이지 4까지 완료 시
 						cleared();
 						time_start = time(NULL); //스테이지 클리어에 따른 시간 초기화
-						time_stopped = 0; 
+						time_stopped = 0;
 						return stage;
 					}
 					else if (stage == 5) //스테이지 5 완료 시
@@ -657,7 +657,7 @@ int ranking_reset(int stage){
 }
 //***********************undo함수***************************(기여자:박세준,최준식)
 void undo_fuc (char input,char check){
-	
+
     for (Y=0; Y<30; Y++) // 플레이어 위치 찾기
     	for(X=0; X<30; X++)
    		if (map_now[stage][Y][X] == '@'){
@@ -676,7 +676,7 @@ void undo_fuc (char input,char check){
 					{
 						map_now[stage][Y-1][X] = '@';
 						map_now[stage][Y][X] = ' ';
-						return;	
+						return;
 					}
 					break;
 
