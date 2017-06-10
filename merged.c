@@ -499,6 +499,7 @@ void input(int stage) {
 		case 'n' :
 			new();
 			stage=0;
+			time_start = time(NULL);
 			new_stage++;
 			break ;
 		case 'e' :
