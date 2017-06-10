@@ -81,7 +81,7 @@ void new(void)
         map_now[reading_stage][Y][X] = map[reading_stage][Y][X];
   system("clear");
 
-	time_start = time(NULL);
+	time_start = time(NULL);  //시작시간 초기화
 	time_stopped = 0; // 경과시간 초기화
 
   return;
@@ -319,20 +319,20 @@ char move (int keyinput, int stage){
 //*******************O(돈의 도착 장소)와 관련된 함수******************(기여자:이상현)
 void bank_recover(int keyinput, int stage) {
          for(int i=0;i<count_bank[stage];i++) // 플레이어 이동으로 인해 스페이스가 된 은행을 원상복구
-             if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ')
+             if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ') 
                  map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]] = 'O';
 		 map_now[stage][0][0] = map[stage][0][0]; //오류 해결
 }
-void where_is_bank(void){
+void where_is_bank(void){     //은행의 위치 저장
 	for (int stage=0; stage<5; stage++){
 	int count = 0;
 	for(Y = 0; Y<30; Y++)
 	    for (X = 0; X<30; X++)
 	        if (map_now[stage][Y][X] == 'O'){
-	            bank_location_X[stage][count] = X;
-	            bank_location_Y[stage][count] = Y;
-	            count_bank[stage]++;
-				count++;
+	            bank_location_X[stage][count] = X;  //은행의 X축 위치값 저장
+	            bank_location_Y[stage][count] = Y;  //은행의 Y축 위치값 저장
+	            count_bank[stage]++;   //스테이지의 은행 갯수 +1
+				count++;   //몇 번째 은행인지 나타냄
 	        }
     }
 }
@@ -503,7 +503,7 @@ void input(int stage) {
 			new_stage++;
 			break ;
 		case 'e' :
-			save_game(stage);
+			save_game(stage);  //게임을 저장하고 종료
 			system("clear");
 			printf("SEE YOU %s....\n\n", name);
 			printf("\n(COMMAND) e");
