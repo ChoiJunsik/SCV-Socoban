@@ -319,7 +319,7 @@ char move (int keyinput, int stage){
 //*******************O(돈의 도착 장소)와 관련된 함수******************(기여자:이상현)
 void bank_recover(int keyinput, int stage) {
          for(int i=0;i<count_bank[stage];i++) // 플레이어 이동으로 인해 스페이스가 된 은행을 원상복구
-             if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ') 
+             if (map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]]== ' ')
                  map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]] = 'O';
 		 map_now[stage][0][0] = map[stage][0][0]; //오류 해결
 }
@@ -534,31 +534,31 @@ void ranking_print(void){
 	FILE *rank;
 	rank = fopen("ranking", "r");
 	if (rank == NULL){
-		printf("랭킹파일 에러.\n");
+		printf("랭킹파일 에러.\n");   //랭킹파일 읽기
 		}
-	int record[5][6];
+	int record[5][6]; //시간기록 : 스테이지, 랭킹시간
 	int stage_amin;
-	char name_amin[5][6][10] = {0};
+	char name_amin[5][6][10] = {0}; //이름 배열 : 스테이지, 랭킹이름, 이름글자
 	for (int k = 0; k < 5; k += 1){
-		fscanf(rank, "===%d===\n", &stage_amin);
-		for (int n = 0; n < 5; n += 1)
+		fscanf(rank, "===%d===\n", &stage_amin); //해당 스테이지 읽음
+		for (int n = 0; n < 5; n += 1) //스테이지마다 5개의 기록들 읽기
 			fscanf(rank, "%s  -  %d\n", name_amin[stage_amin][n], &record[stage_amin][n]);
 		}
 	system("clear");
 	printf("맵 번호별로 보기 : 1, 2, 3, 4, 5 \n t : 종료\n");
-	for (int k = 0; k < 5; k += 1){
-		printf("map %d\n", k + 1);
-		for (int n = 0; n < 5; n += 1)
+	for (int k = 0; k < 5; k += 1){  //위에 기록한 내용들 출력하기
+		printf("map %d\n", k + 1); //map 번호 출력
+		for (int n = 0; n < 5; n += 1) //1~5 순위
 			printf("%s    %d:%d\n", name_amin[k][n], record[k][n] / 60, record[k][n] % 60);
 		}
-		printf("(command)");
+		printf("(COMMAND)");
 	while(1){
 
-		getch();
+		getch();  //위 t 누른 상황에서 명령 입력받음
 
-		if (keyinput == 't')
+		if (keyinput == 't') //t누르면 종료
 			return;
-		if (keyinput == '1'){
+		if (keyinput == '1'){  //밑의 숫자들로 스테이지 별 랭킹 출력
 			system("clear");
 			printf("map 1\n");
 			for (int n = 0; n < 5; n += 1)
@@ -594,38 +594,38 @@ void ranking_print(void){
 			case '3' :
 			case '4' :
 			case '5' :
-				printf("(command) t %c",keyinput);
+				printf("(COMMAND) t %c",keyinput);
 				break;
 			default :
 				break;
 		}
 	}
-}
+} //랭킹출력
 
-int ranking_reset(int stage){
+int ranking_reset(int stage){ //랭킹 순위 돌려주기
 	FILE *rank;
-	rank = fopen("ranking", "r");
+	rank = fopen("ranking", "r"); //랭킹 읽기
 	if (rank == NULL){
 		printf("랭킹파일 에러.\n");
 		}
-	int gotrash;
-	int trashforname[10] = {0};
-	int record[5][6]={0};
+	int gotrash; //임시 보관소
+	int trashforname[10] = {0}; //이름 임시 보관소
+	int record[5][6]={0}; //랭킹 출력 함수와 같음
 	int stage_amin=0;
 	char name_amin[5][6][10] = {0};
-	for (int k = 0; k < 5; k += 1){
+	for (int k = 0; k < 5; k += 1){  //스테이지, 이름, 기록 모두 읽기
 		fscanf(rank, "===%d===\n", &stage_amin);
 		for (int n = 0; n < 5; n += 1)
 			fscanf(rank, "%s  -  %d\n", name_amin[stage_amin][n], &record[stage_amin][n]);
 	}
-	for (int nm = 0; nm < 10; nm += 1){
+	for (int nm = 0; nm < 10; nm += 1){ //현재 이름을 6번째 랭킹에 저장
 		name_amin[stage][5][nm] = name[nm];
 	}
-	record[stage][5] = time_stop();
+	record[stage][5] = time_stop(); //현재까지 기록을 6번째 랭킹에 저장
 
 	fclose(rank);
-	rank = fopen("ranking", "w");
-	//정렬
+	rank = fopen("ranking", "w");  //읽기 모드로 다시 염
+	//랭킹 정렬 1~6위까지
 	for (int outplay = 0; outplay < 5; outplay += 1){
 		for (int inplay = 0; inplay < 5 - outplay; inplay += 1){
 			if (record[stage][inplay] > record[stage][inplay + 1]){
@@ -643,7 +643,7 @@ int ranking_reset(int stage){
 		}
 	}
 
-	for (int k = 0; k < 5; k += 1){
+	for (int k = 0; k < 5; k += 1){  //파일에 다시 저장하는데, 5등까지만 저장함
 		fprintf(rank, "===%d===\n", k);
 		for (int n = 0; n < 5; n += 1)
 			fprintf(rank, "%s  -  %d\n", name_amin[k][n], record[k][n]);
@@ -744,7 +744,7 @@ void undo_fuc (char input,char check){
 void undo_bbagi(){//언두를 실행한 후 사용된언두의상황과 키를 제거해 주는 함수
 	for(int i=4;i>0;i--)
 	{
-		undo[i+1]=undo[i];//가장뒤에저장된(가장최근의) 입력받은키입력제거	
+		undo[i+1]=undo[i];//가장뒤에저장된(가장최근의) 입력받은키입력제거
 		check_num[i+1]=check_num[i];//가장뒤에저장된(가장최근의) 플레이어의 이동 상황을 제거
 		check_num[i]=0;//배열의 내용을 이동시킨 배열을공백으로만들어준다
 		undo[i]=0;//배열의 내용을 이동시킨 배열을공백으로만들어준다
@@ -760,22 +760,21 @@ void undo_input(){
 //*********************세이브앤로드**************************(기여자:우호진)
 void save_game(int stage){
 		FILE *savefile;
-		savefile = fopen("sokoban", "w");
+		savefile = fopen("sokoban", "w"); //소코반 파일 열기
 		if (savefile == NULL){
-			printf("오류 : 세이브 파일을 열 수 없습니다.\n");
+			printf("세이브 파일을 열 수 없습니다.\n");
 			exit(1);
    	}
-		time_stop();
-		fprintf(savefile, "%d, %s\n", stage, name);
+		fprintf(savefile, "%d, %s\n", stage, name); //세이브 한 당시 스테이지와 이름 저장
 		for (Y=0; Y<30; Y++)
 			for (X=0; X<30; X++)
-				fprintf(savefile, ".%c", map_now[stage][Y][X]);
-		fprintf(savefile, "\n%d\n", time_stop());
+				fprintf(savefile, ".%c", map_now[stage][Y][X]);  //맵을 저장
+		fprintf(savefile, "\n%d\n", time_stop()); //플레이 시간 저장
 		for (int q = 0; q < 6; q += 1){
-			fprintf(savefile, ".%d", check_num[q]);
+			fprintf(savefile, ".%d", check_num[q]);  //언두 중에서 개수체크 할 것
 		}
 		for (int q = 0; q < 6; q += 1){
-			fprintf(savefile, ".%c", undo[q]);
+			fprintf(savefile, ".%c", undo[q]);     //언두 배열을 저장해둠
 		}
 		fclose(savefile);
 
@@ -784,16 +783,16 @@ void load_game(void){
 		FILE *savefile;
 		savefile = fopen("sokoban", "r");
 		if (savefile == NULL){
-			printf("세이브 파일이 없습니다.\n");
+			printf("세이브 파일이 없습니다.\n");  //소코반 파일 읽음
 			}
-		time_start = time(NULL);
-		fscanf(savefile, "%d, %s\n", &stage, &name);
+		time_start = time(NULL);  // 로드 ~ 랭킹등록 까지 시간 계산을 위함.
+		fscanf(savefile, "%d, %s\n", &stage, &name); //이름, 스테이지 읽음
 		for (Y=0; Y<30; Y++)
 			for (X=0; X<30; X++)
-				fscanf(savefile, ".%c", &map_now[stage][Y][X]);
-		fscanf(savefile, "\n%d\n", &time_stopped);
+				fscanf(savefile, ".%c", &map_now[stage][Y][X]); //맵 불러오기
+		fscanf(savefile, "\n%d\n", &time_stopped);  // 세이브때 까지의 시간 불러오기
 		for (int q = 0; q < 6; q += 1){
-			fscanf(savefile, ".%d", &check_num[q]);
+			fscanf(savefile, ".%d", &check_num[q]); //마찬가지로 언두 상황 불러오기
 		}
 		for (int q = 0; q < 6; q += 1){
 			fscanf(savefile, ".%c", &undo[q]);
