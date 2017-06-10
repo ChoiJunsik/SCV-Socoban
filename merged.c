@@ -741,20 +741,20 @@ void undo_fuc (char input,char check){
 
 		}
 }
-void undo_bbagi(){
+void undo_bbagi(){//언두를 실행한 후 사용된언두의상황과 키를 제거해 주는 함수
 	for(int i=4;i>0;i--)
 	{
-		undo[i+1]=undo[i];
-		check_num[i+1]=check_num[i];
-		check_num[i]=0;
-		undo[i]=0;
+		undo[i+1]=undo[i];//가장뒤에저장된(가장최근의) 입력받은키입력제거	
+		check_num[i+1]=check_num[i];//가장뒤에저장된(가장최근의) 플레이어의 이동 상황을 제거
+		check_num[i]=0;//배열의 내용을 이동시킨 배열을공백으로만들어준다
+		undo[i]=0;//배열의 내용을 이동시킨 배열을공백으로만들어준다
 	}
 }
 void undo_input(){
 	for(int i=0;i<5;i++){
-		undo[i]=undo[i+1];
-		check_num[i]=check_num[i+1];}
-	undo[5]=keyinput;
+		undo[i]=undo[i+1];//뒤의배열의내용을한칸앞으로이동시킨다
+		check_num[i]=check_num[i+1];}//뒤의배열의내용을한칸앞으로이동시킨다
+	undo[5]=keyinput;//입력받은키를언두배열에저장한다(함수가)
 }
 
 //*********************세이브앤로드**************************(기여자:우호진)
