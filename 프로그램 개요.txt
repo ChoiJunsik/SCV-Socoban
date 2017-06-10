@@ -1,0 +1,36 @@
+이번 소코반 프로젝트는 이상현,우호진,박세준,최준식 4인 분담으로 진행하였습니다.
+
+프로그램은 처음 실행하면  main 함수 호출시 먼저 system("clear") 를 통하여 출력화면을 지워준 후 
+
+yourname() 함수로 게임 이용자 이름을 입력받게 하였습니다.
+
+그후 map_reader() 함수로 map 파일에서 맵을 읽어들여서 맵 배열에 배정한후 where_is_bank() 함수로 짐 보관소 위치를 따로 배정해서 플레이어 이동시 버그가 발생하지 않도록 하였습니다.
+
+time_start 변수에 시작시간을 배정하여서 게임 시간을 측정하도록 하였고, while(1)로 제어가 옮겨가게됩니다.
+
+처음 input(stage);에는 이름 입력시 들어갔던 널값이 들어가 break 되고 그 후 clear_check 함수를 통해 짐 보관소 위치에 $가 채워져있는지 판단후 채워져 있지 않아 stage가 증가되지 않습니다.
+
+while문안 마지막 함수인 map_print(stage, keyinput) 함수로 제어가 옮겨가 저장된 맵배열을 출력합니다.
+
+다시 while문이 반복되는데 프로그램 상에서 단축키를 입력시 input 함수로 제어가 옮겨가 switch문안에서 해당하는 함수를 호출한 후 다시 스테이지 클리어 여부를 판단한후 다시 맵을 출력하게 됩니다.
+
+//
+h,j,k,l 창고지기 조정은 move(int keyinput, int stage) 함수로 구현되었다.
+
+undo는 undo_input(void), undo_bbagi(void),undo_fuc(char ,char) 로 구현되었다.
+
+replay 는 replay(char stage)로 구현되었다.
+
+new는 new(void) 로 구현되었다.
+
+eixt는 input내 case 'e'로 구현되었다.
+
+save는 save_game(int)로 구현되었다.
+
+file load는 load_game() 로 구현되었다.
+
+display help는 help()로 구현되었다.
+
+top은 ranking_print(), ranking_reset(int)로 구현되었다.
+
+
