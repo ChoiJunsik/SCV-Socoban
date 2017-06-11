@@ -27,7 +27,6 @@ unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
 int stage=0;//현재 스테이지
 int new_stage=0; // new함수 사용여부
-int undo_count=0;
 
 //***************************함수원형***********************************
 
@@ -55,20 +54,19 @@ void undo_input(void);//언두에 필요한 이동키와 상황을 배열에 저
 void undo_bbagi(void);//이미 undo한 이동키와 상황을 빼줌
 void undo_fuc(char ,char);//undo주요함수
 
-void replay(char stage); // 맵, undo_count 초기화
+void replay(char stage); // 맵 초기화
 
 
-void ranking_print(void);
-int ranking_reset(int);
+void ranking_print(void);  //랭킹출력
+int ranking_reset(int);   //랭킹 초기화
 
-void getch();
-void input(int stage);
+void getch(); //키 하나 입력
+void input(int stage);  //키 입력에 따른 함수 사용 설정
 
-void new(void);
+void new(void);  //new함수
 //***********************new함수*********************(최준식)
 void new(void)
 {
-	undo_count = 0; // 카운트 초기화
 	for(int i=0;i<6;i++){
   check_num[i]=0;
   undo[i]=0;
@@ -81,7 +79,7 @@ void new(void)
         map_now[reading_stage][Y][X] = map[reading_stage][Y][X];
   system("clear");
 
-	time_start = time(NULL);
+	time_start = time(NULL);  //시작시간 초기화
 	time_stopped = 0; // 경과시간 초기화
 
   return;
@@ -152,7 +150,7 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
 	    }
 
 									if (o!=money){   //오류검사(최준식,우호진,박세준,이상현)
-										printf("ERROR\n");//오류검사(최준식,우호진,박세준,이상현)
+										printf("error:돈,공간의 개수가 일치하지않음\n");//오류검사(최준식,우호진,박세준,이상현)
 										fclose(mapfile);//오류검사(최준식,우호진,박세준,이상현)
 										exit(1);//오류검사(최준식,우호진,박세준,이상현)
 									}
@@ -165,7 +163,8 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
 					map_now[reading_stage][Y][X] = map[reading_stage][Y][X];
 
 }
-void yourname(void){
+
+void yourname(void){    // 이름 입력 함수
   printf("input name : ");
   scanf("%s",&name);
   system("clear");
@@ -323,16 +322,16 @@ void bank_recover(int keyinput, int stage) {
                  map_now[stage][bank_location_Y[stage][i]][bank_location_X[stage][i]] = 'O';
 		 map_now[stage][0][0] = map[stage][0][0]; //오류 해결
 }
-void where_is_bank(void){
+void where_is_bank(void){     //은행의 위치 저장
 	for (int stage=0; stage<5; stage++){
 	int count = 0;
 	for(Y = 0; Y<30; Y++)
 	    for (X = 0; X<30; X++)
 	        if (map_now[stage][Y][X] == 'O'){
-	            bank_location_X[stage][count] = X;
-	            bank_location_Y[stage][count] = Y;
-	            count_bank[stage]++;
-				count++;
+	            bank_location_X[stage][count] = X;  //은행의 X축 위치값 저장
+	            bank_location_Y[stage][count] = Y;  //은행의 Y축 위치값 저장
+	            count_bank[stage]++;   //스테이지의 은행 갯수 +1
+				count++;   //몇 번째 은행인지 나타냄
 	        }
     }
 }
@@ -340,34 +339,34 @@ void where_is_bank(void){
 void cleared(void){//스테이지 클리어 시
 	ranking_reset(stage);
 	system("clear");
-printf("     BBQEK2J7r;irsUGRBBBgpwUc;.  Z7    5Op:                               :aE7   ,1P:\n");
-printf("     EBQBQBQBBBBD1r::,:;LSZ7sSL ;;   ZBr          i2        ;D              .SBX   :J\n");
-printf("         ,;LUEMBBBBBKUw5L;     :i   .B           gB:         ER                JBE  .\n");
-printf("     BBQZsr,,.::LXBBBHr,r7    L:   7B   s    X  BSQ           B:                 1,. \n");
-printf("      ;1OBBBBBQBg6pBBBBp     rJ   LB   gX   BX.B; B  s.       JB OBQ   s:         D; \n");
-printf("     ;.      :sEBBg2r7XGO:  .7.  ,B   :B   BB B,  B  BS    .B  BGr SB  rB   .;:. O1  \n");
-printf("     BBBBBBgJ;.    ,        :;   Bs   BR  :B      B  BB     B. B    BJ  B    JSK5B  ;\n");
-printf("      ,:;rJ5ZEGgBQDr...    .L   OQ    BB  BD      B.r:B:    BE B    ;B  B   J7rirB  :\n");
-printf("     ...         .::. ...  Lc   Q.    BB  B       .MM,:B,   HB..     B. B   H; .,B7 U\n");
-printf("     BBBBBBBBBBBBQQDgPr..  ,.  RB     BR rBB::.     ;  ;BRs:.        Ba B   HBH1:rB B\n");
-printf("                      .    s.  B,     BZ BB   BB:        ,r,  :UK61. Jg B   E:    rBB\n");
-printf("     1LsJJww515US5KU2c.   ::  5B      BHBB     BB  7KEOPB   1BB    B;,Bss   B:     :B\n");
-printf("     Q725XXpKpKPPZPZKSi.  Lr  BH     ,Q,B      BB  :.   sQ  BB      B BB    B      rB\n");
-printf("     7r;;:;:;;rr77ss2U52r ;;  B.    :QB KBB   BB   B:    Q  BBB    Ba .B    BL7    ;B\n");
-printf("     ;rsJHpgMBBBBQwr;;,.  .. :B    QB1    rPUv,    B.    p   ;KQBBg;  ,B   ;R.UBD;RD;\n");
-printf("     BBBBBBBBGHsL7r:,,,  .U, JB   LBs              pO    R:           1Q   Oc   DBQs7\n");
-printf("     sr;,,..,:;ri;,..,,.  r, gR   DB,               Q,  ,B            BB   B    BB  B\n");
-printf("     cgvL151J7r::::;r7i. .v  B5 , sQR               :RsJG.            Bs  ;Q   BB   B\n");
-printf("     Sc7r;:::;rJXGZwrr,  :r  B7;Z  BBM                                B   B1 :BB    B\n");
-printf("     .;;r7s1HKHJ7;:,,:;. 7s  gswR   sBBS                             sBwB,B :QB     B\n");
-printf("     JcssJ7;,. :rr7JJs;  ;7  JOXP     cBBBEv,                    :1QBBBE PQ   B6    B\n");
-printf("     S:,..,;UQBBZvsLr:,,. :.  BS6 B.  ZBBBBBBBBBBBBBRPSss7sJpBBBBBB6OB.  BB   ,BJ   B\n");
-printf("     .;7s6BBQBKL7r:rLSX6r :;  pBQBQ  :BBBB U ,i,r2PRBBBBQBBBBQU;     v  GBB    cQr  B\n");
-printf("     rsEBBRsr:::vaD6EgRa: :L.  rBQ   BBBB5,B SE                 7L :     QB     GB. B\n");
-printf("     OGs,.:;:rwZKHXP5L,    .   OB   cBBBBBgD EB                 BJ H     BB      BQ 7\n\n");
+	printf("     BBQEK2J7r;irsUGRBBBgpwUc;.  Z7    5Op:                               :aE7   ,1P:\n");
+	printf("     EBQBQBQBBBBD1r::,:;LSZ7sSL ;;   ZBr          i2        ;D              .SBX   :J\n");
+	printf("         ,;LUEMBBBBBKUw5L;     :i   .B           gB:         ER                JBE  .\n");
+	printf("     BBQZsr,,.::LXBBBHr,r7    L:   7B   s    X  BSQ           B:                 1,. \n");
+	printf("      ;1OBBBBBQBg6pBBBBp     rJ   LB   gX   BX.B; B  s.       JB OBQ   s:         D; \n");
+	printf("     ;.      :sEBBg2r7XGO:  .7.  ,B   :B   BB B,  B  BS    .B  BGr SB  rB   .;:. O1  \n");
+	printf("     BBBBBBgJ;.    ,        :;   Bs   BR  :B      B  BB     B. B    BJ  B    JSK5B  ;\n");
+	printf("      ,:;rJ5ZEGgBQDr...    .L   OQ    BB  BD      B.r:B:    BE B    ;B  B   J7rirB  :\n");
+	printf("     ...         .::. ...  Lc   Q.    BB  B       .MM,:B,   HB..     B. B   H; .,B7 U\n");
+	printf("     BBBBBBBBBBBBQQDgPr..  ,.  RB     BR rBB::.     ;  ;BRs:.        Ba B   HBH1:rB B\n");
+	printf("                      .    s.  B,     BZ BB   BB:        ,r,  :UK61. Jg B   E:    rBB\n");
+	printf("     1LsJJww515US5KU2c.   ::  5B      BHBB     BB  7KEOPB   1BB    B;,Bss   B:     :B\n");
+	printf("     Q725XXpKpKPPZPZKSi.  Lr  BH     ,Q,B      BB  :.   sQ  BB      B BB    B      rB\n");
+	printf("     7r;;:;:;;rr77ss2U52r ;;  B.    :QB KBB   BB   B:    Q  BBB    Ba .B    BL7    ;B\n");
+	printf("     ;rsJHpgMBBBBQwr;;,.  .. :B    QB1    rPUv,    B.    p   ;KQBBg;  ,B   ;R.UBD;RD;\n");
+	printf("     BBBBBBBBGHsL7r:,,,  .U, JB   LBs              pO    R:           1Q   Oc   DBQs7\n");
+	printf("     sr;,,..,:;ri;,..,,.  r, gR   DB,               Q,  ,B            BB   B    BB  B\n");
+	printf("     cgvL151J7r::::;r7i. .v  B5 , sQR               :RsJG.            Bs  ;Q   BB   B\n");
+	printf("     Sc7r;:::;rJXGZwrr,  :r  B7;Z  BBM                                B   B1 :BB    B\n");
+	printf("     .;;r7s1HKHJ7;:,,:;. 7s  gswR   sBBS                             sBwB,B :QB     B\n");
+	printf("     JcssJ7;,. :rr7JJs;  ;7  JOXP     cBBBEv,                    :1QBBBE PQ   B6    B\n");
+	printf("     S:,..,;UQBBZvsLr:,,. :.  BS6 B.  ZBBBBBBBBBBBBBRPSss7sJpBBBBBB6OB.  BB   ,BJ   B\n");
+	printf("     .;7s6BBQBKL7r:rLSX6r :;  pBQBQ  :BBBB U ,i,r2PRBBBBQBBBBQU;     v  GBB    cQr  B\n");
+	printf("     rsEBBRsr:::vaD6EgRa: :L.  rBQ   BBBB5,B SE                 7L :     QB     GB. B\n");
+	printf("     OGs,.:;:rwZKHXP5L,    .   OB   cBBBBBgD EB                 BJ H     BB      BQ 7\n\n");
 
-printf("                스테이지 %d 클리어!!            좀 더 노오오오오오오력 하죠!!!! \n",stage+1);
-printf("			%s 님의 기록을 랭킹에 저장했습니다!\n",name);
+	printf("                스테이지 %d 클리어!!            좀 더 노오오오오오오력 하죠!!!! \n",stage+1);
+	printf("			%s 님의 기록을 랭킹에 저장했습니다!\n",name);
 	sleep(3);
 	system("clear");
 	for(int i=0;i<=6;i++) //undo 횟수 초기화
@@ -377,55 +376,55 @@ int cleared_all(void){ //마지막 스테이지 클리어 시
 
 	system("clear");
 	ranking_reset(stage);
-printf("     77v7v7v7v777v7v7v77777777r7r7r77v77r7iiirrr::r7r;r77v7v7v777\n");
-printf("     7v77777v7v7v7777r7rr;;:::::::;;rr7r::LJL:,1BB::LE;;77777777v\n");
-printf("     v77777v7v7v77rri:::;JPQBBBBQB6J::,,MBBBBBB,DBBr:BB:i77777777\n");
-printf("     7v77777v77r7;::LQBBBBBBBBBBBBBBBBBBB:   rBB. BB7,BQ:rv7v7v7v\n");
-printf("     v7v777777r;,sQBBBG;            .5QBQ      BB; BB.QB7r7v777v7\n");
-printf("     7v7v7v77;:pBQBr       a            BB      BB,:g;7BU;77v7777\n");
-printf("     77777rr:7BBO         BB   ss        BB      BQ,:r;:r77v7v7v7\n");
-printf("     7777rr,BBB           BQ .BBL         Bw     :BL;r7r77v7v7777\n");
-printf("     v7777,BBr           .B.MB2      HQBBBBB      BB:7777v777v777\n");
-printf("     7v77:RB             HBBBswBBBBBBBBUJJHBB     RB:r777777v7777\n");
-printf("     v7v;:BMsBS:         vBBQP:  ZBBs::;;i:cB;    :Bcr7v77777v777\n");
-printf("     77r:DB ,XBBBBRr   pBBBBBBB:BBU,;:::::r:BB    .Ba;77v777v777v\n");
-printf("     777,BB     wBBBBSBBM7vB27BBB::;:aBBBK::BB    :Bs;7v7v777v777\n");
-printf("     77r,BB BBBQXwBBBBaZ7:LQ2:::;:,JBBB2BBi:MQ    sBr;77v777v777v\n");
-printf("     v77,BB     :B6 BsrBB;r;i7r::KBB; BBQBr:RB    BB:r7v7v777v7v7\n");
-printf("     7vr:EB    BB   BB::r7vrr:;BBBBBQBBBBB:,BQ    BB:r77777777v77\n");
-printf("     777r:BB   Z:JQBBp;7rr::JBBB   BBBBBg:;:BB   :BP:77v77777v777\n");
-printf("     7v77:rBB2BBBBRr::::;sBQBBB57BBBBBB7:r:BB    BB,r7v7v7v777v77\n");
-printf("     v7v7;rBBBO7,,,::7BBBBg   BBBBQBBB,;r:6BJ   QB;irv7v7777777v7\n");
-printf("     7v77,BB  .,:JBBBBg, QBSBBBBBBBQ::r;:BBS   sB5:r7777v777v7v77\n");
-printf("     v77r;JBQBBBBBX :B: gBBBBBBBBZ,:;;:UBB:   .BB,r77v7v7v777v7v7\n");
-printf("     7v77r;;BBB6BBrsBQBBBBBBBBBL::r;:JBBB     BB,r77v7v77777v7777\n");
-printf("     77v77rr::,:,gBBw BBBBBBs::;;::HQBB      BB,;77777777v7v7v7v7\n");
-printf("     7v7v77r7r7rr::.,BBQRr,::;::1BBBB        QB,7777v7v777v7v7777\n");
-printf("     77v7v77777v77r:BB:.,::::sBBQB;         :B:;r77v777v77777v7v7\n");
-printf("     7777777v7v7777,BBB1vLRBBBBr         LBBBBB:;7777777v777v777v\n");
-printf("     v7v7v7v7v7777;JBXQBBBBB           ;BBU: ;BB;r7v77777v777v7v7\n");
-printf("     7v7v7v7v777v7r7Br   BBQ           1B      BB:7777v777v7v7v7v\n");
-printf("     7777777777777r:pBB    BB             B:   JB;rv77777v7v777v7\n");
-printf("     7v7v7v7v7v7v777:rBBBsrBB            6B    ZB:r7v7v777v7v7v7v\n");
-printf("     v7v7v77777v7777ri,vQBBBB          .gBB    BB:rv77777v7v7v7v7\n");
-printf("     7v77777v77777v7v77;:,.UB         BQBB    BQ:;7777v7v7v77777v\n");
-printf("     77v777v7777777v7777rr;:Bg      ;BB:,BBBQBB:;77v7v7v777v777v7\n");
-printf("     7v77777v7v7v7777777v77,BB      BB ;;:5QR7:i77v7777777v77777v\n");
-printf("     77v7v77777v7v7v7v7v7vrirBR     BB :rr;::rr7777v777v7v7v7v777\n");
-printf("     7v7v7v7v7v7v7v7v77777vr:aBB    :BB2:r7r77v7v7v777v777v777v77\n");
-printf("     v7v7v77777v777v77777777r:1BQ:   BBBB,r77v7v777v7v77777v77777\n");
-printf("     7777777v777v777v77777777r;:BBBrsQBUBw:rv7v7v7777rrr7rv7v7777\n");
-printf("     7777v77777v7v7v7v7v7777777r,:BBBU. BBJ;777v777;,;r:,;r777777\n");
-printf("     77777777777v7v7v77777v7777rr.BB,JBBBBO:v77777r7BBBBBr,r77v77\n");
-printf("     v777v7777777v7v777v7v777v7vriiBBBBBBX:7777v77:BBBBBBBG,;7777\n");
-printf("     777v77777v7v7v77777777777v77r;7BBS;,:r7v77777;UBBBBB6BQ7;777\n");
-printf("     v777v77777v77777v77777v7v7777ri,::rr77v777v77r:JBB ;7BBB;rv7\n");
-printf("     7v7v7v7777777v7v7777777v7v7777r7r77v7v7v777777r:sBBBBBBM;777\n");
-printf("     v777v77777v77777v7v77777v7v7v7v777v777v7v777777r:;BBB5,,7r77\n\n");
+	printf("     77v7v7v7v777v7v7v77777777r7r7r77v77r7iiirrr::r7r;r77v7v7v777\n");
+	printf("     7v77777v7v7v7777r7rr;;:::::::;;rr7r::LJL:,1BB::LE;;77777777v\n");
+	printf("     v77777v7v7v77rri:::;JPQBBBBQB6J::,,MBBBBBB,DBBr:BB:i77777777\n");
+	printf("     7v77777v77r7;::LQBBBBBBBBBBBBBBBBBBB:   rBB. BB7,BQ:rv7v7v7v\n");
+	printf("     v7v777777r;,sQBBBG;            .5QBQ      BB; BB.QB7r7v777v7\n");
+	printf("     7v7v7v77;:pBQBr       a            BB      BB,:g;7BU;77v7777\n");
+	printf("     77777rr:7BBO         BB   ss        BB      BQ,:r;:r77v7v7v7\n");
+	printf("     7777rr,BBB           BQ .BBL         Bw     :BL;r7r77v7v7777\n");
+	printf("     v7777,BBr           .B.MB2      HQBBBBB      BB:7777v777v777\n");
+	printf("     7v77:RB             HBBBswBBBBBBBBUJJHBB     RB:r777777v7777\n");
+	printf("     v7v;:BMsBS:         vBBQP:  ZBBs::;;i:cB;    :Bcr7v77777v777\n");
+	printf("     77r:DB ,XBBBBRr   pBBBBBBB:BBU,;:::::r:BB    .Ba;77v777v777v\n");
+	printf("     777,BB     wBBBBSBBM7vB27BBB::;:aBBBK::BB    :Bs;7v7v777v777\n");
+	printf("     77r,BB BBBQXwBBBBaZ7:LQ2:::;:,JBBB2BBi:MQ    sBr;77v777v777v\n");
+	printf("     v77,BB     :B6 BsrBB;r;i7r::KBB; BBQBr:RB    BB:r7v7v777v7v7\n");
+	printf("     7vr:EB    BB   BB::r7vrr:;BBBBBQBBBBB:,BQ    BB:r77777777v77\n");
+	printf("     777r:BB   Z:JQBBp;7rr::JBBB   BBBBBg:;:BB   :BP:77v77777v777\n");
+	printf("     7v77:rBB2BBBBRr::::;sBQBBB57BBBBBB7:r:BB    BB,r7v7v7v777v77\n");
+	printf("     v7v7;rBBBO7,,,::7BBBBg   BBBBQBBB,;r:6BJ   QB;irv7v7777777v7\n");
+	printf("     7v77,BB  .,:JBBBBg, QBSBBBBBBBQ::r;:BBS   sB5:r7777v777v7v77\n");
+	printf("     v77r;JBQBBBBBX :B: gBBBBBBBBZ,:;;:UBB:   .BB,r77v7v7v777v7v7\n");
+	printf("     7v77r;;BBB6BBrsBQBBBBBBBBBL::r;:JBBB     BB,r77v7v77777v7777\n");
+	printf("     77v77rr::,:,gBBw BBBBBBs::;;::HQBB      BB,;77777777v7v7v7v7\n");
+	printf("     7v7v77r7r7rr::.,BBQRr,::;::1BBBB        QB,7777v7v777v7v7777\n");
+	printf("     77v7v77777v77r:BB:.,::::sBBQB;         :B:;r77v777v77777v7v7\n");
+	printf("     7777777v7v7777,BBB1vLRBBBBr         LBBBBB:;7777777v777v777v\n");
+	printf("     v7v7v7v7v7777;JBXQBBBBB           ;BBU: ;BB;r7v77777v777v7v7\n");
+	printf("     7v7v7v7v777v7r7Br   BBQ           1B      BB:7777v777v7v7v7v\n");
+	printf("     7777777777777r:pBB    BB             B:   JB;rv77777v7v777v7\n");
+	printf("     7v7v7v7v7v7v777:rBBBsrBB            6B    ZB:r7v7v777v7v7v7v\n");
+	printf("     v7v7v77777v7777ri,vQBBBB          .gBB    BB:rv77777v7v7v7v7\n");
+	printf("     7v77777v77777v7v77;:,.UB         BQBB    BQ:;7777v7v7v77777v\n");
+	printf("     77v777v7777777v7777rr;:Bg      ;BB:,BBBQBB:;77v7v7v777v777v7\n");
+	printf("     7v77777v7v7v7777777v77,BB      BB ;;:5QR7:i77v7777777v77777v\n");
+	printf("     77v7v77777v7v7v7v7v7vrirBR     BB :rr;::rr7777v777v7v7v7v777\n");
+	printf("     7v7v7v7v7v7v7v7v77777vr:aBB    :BB2:r7r77v7v7v777v777v777v77\n");
+	printf("     v7v7v77777v777v77777777r:1BQ:   BBBB,r77v7v777v7v77777v77777\n");
+	printf("     7777777v777v777v77777777r;:BBBrsQBUBw:rv7v7v7777rrr7rv7v7777\n");
+	printf("     7777v77777v7v7v7v7v7777777r,:BBBU. BBJ;777v777;,;r:,;r777777\n");
+	printf("     77777777777v7v7v77777v7777rr.BB,JBBBBO:v77777r7BBBBBr,r77v77\n");
+	printf("     v777v7777777v7v777v7v777v7vriiBBBBBBX:7777v77:BBBBBBBG,;7777\n");
+	printf("     777v77777v7v7v77777777777v77r;7BBS;,:r7v77777;UBBBBB6BQ7;777\n");
+	printf("     v777v77777v77777v77777v7v7777ri,::rr77v777v77r:JBB ;7BBB;rv7\n");
+	printf("     7v7v7v7777777v7v7777777v7v7777r7r77v7v7v777777r:sBBBBBBM;777\n");
+	printf("     v777v77777v77777v7v77777v7v7v7v777v777v7v777777r:;BBB5,,7r77\n\n");
 
-printf("                모든 스테이지 클리어!!          해냈습니다!!!! \n");
-printf("	            %s 님의 기록을 랭킹에 저장했습니다!\n",name);
-printf("                    %s 님, 플레이 해 주셔서 감사합니다!",name);
+	printf("                모든 스테이지 클리어!!          해냈습니다!!!! \n");
+	printf("	            %s 님의 기록을 랭킹에 저장했습니다!\n",name);
+	printf("                    %s 님, 플레이 해 주셔서 감사합니다!",name);
 	sleep(3);
 	exit(0); //게임 종료
 }
@@ -494,16 +493,15 @@ void input(int stage) {
 			break;
 
 		case 'r' :
-			replay(stage);
+			replay(stage);   //리플레이 기능
 			break ;
 		case 'n' :
-			new();
+			new();  //new 기능
 			stage=0;
-			time_start = time(NULL);
 			new_stage++;
 			break ;
 		case 'e' :
-			save_game(stage);
+			save_game(stage);  //게임을 저장하고 종료
 			system("clear");
 			printf("SEE YOU %s....\n\n", name);
 			printf("\n(COMMAND) e");
@@ -534,31 +532,31 @@ void ranking_print(void){
 	FILE *rank;
 	rank = fopen("ranking", "r");
 	if (rank == NULL){
-		printf("랭킹파일 에러.\n");
+		printf("랭킹파일 에러.\n");   //랭킹파일 읽기
 		}
-	int record[5][6];
+	int record[5][6]; //시간기록 : 스테이지, 랭킹시간
 	int stage_amin;
-	char name_amin[5][6][10] = {0};
+	char name_amin[5][6][10] = {0}; //이름 배열 : 스테이지, 랭킹이름, 이름글자
 	for (int k = 0; k < 5; k += 1){
-		fscanf(rank, "===%d===\n", &stage_amin);
-		for (int n = 0; n < 5; n += 1)
+		fscanf(rank, "===%d===\n", &stage_amin); //해당 스테이지 읽음
+		for (int n = 0; n < 5; n += 1) //스테이지마다 5개의 기록들 읽기
 			fscanf(rank, "%s  -  %d\n", name_amin[stage_amin][n], &record[stage_amin][n]);
 		}
 	system("clear");
 	printf("맵 번호별로 보기 : 1, 2, 3, 4, 5 \n t : 종료\n");
-	for (int k = 0; k < 5; k += 1){
-		printf("map %d\n", k + 1);
-		for (int n = 0; n < 5; n += 1)
+	for (int k = 0; k < 5; k += 1){  //위에 기록한 내용들 출력하기
+		printf("map %d\n", k + 1); //map 번호 출력
+		for (int n = 0; n < 5; n += 1) //1~5 순위
 			printf("%s    %d:%d\n", name_amin[k][n], record[k][n] / 60, record[k][n] % 60);
 		}
-		printf("(command)");
+		printf("(COMMAND)");
 	while(1){
 
-		getch();
+		getch();  //위 t 누른 상황에서 명령 입력받음
 
-		if (keyinput == 't')
+		if (keyinput == 't') //t누르면 종료
 			return;
-		if (keyinput == '1'){
+		if (keyinput == '1'){  //밑의 숫자들로 스테이지 별 랭킹 출력
 			system("clear");
 			printf("map 1\n");
 			for (int n = 0; n < 5; n += 1)
@@ -594,38 +592,38 @@ void ranking_print(void){
 			case '3' :
 			case '4' :
 			case '5' :
-				printf("(command) t %c",keyinput);
+				printf("(COMMAND) t %c",keyinput);
 				break;
 			default :
 				break;
 		}
 	}
-}
+} //랭킹출력
 
-int ranking_reset(int stage){
+int ranking_reset(int stage){ //랭킹 순위 돌려주기
 	FILE *rank;
-	rank = fopen("ranking", "r");
+	rank = fopen("ranking", "r"); //랭킹 읽기
 	if (rank == NULL){
 		printf("랭킹파일 에러.\n");
 		}
-	int gotrash;
-	int trashforname[10] = {0};
-	int record[5][6]={0};
+	int gotrash; //임시 보관소
+	int trashforname[10] = {0}; //이름 임시 보관소
+	int record[5][6]={0}; //랭킹 출력 함수와 같음
 	int stage_amin=0;
 	char name_amin[5][6][10] = {0};
-	for (int k = 0; k < 5; k += 1){
+	for (int k = 0; k < 5; k += 1){  //스테이지, 이름, 기록 모두 읽기
 		fscanf(rank, "===%d===\n", &stage_amin);
 		for (int n = 0; n < 5; n += 1)
 			fscanf(rank, "%s  -  %d\n", name_amin[stage_amin][n], &record[stage_amin][n]);
 	}
-	for (int nm = 0; nm < 10; nm += 1){
+	for (int nm = 0; nm < 10; nm += 1){ //현재 이름을 6번째 랭킹에 저장
 		name_amin[stage][5][nm] = name[nm];
 	}
-	record[stage][5] = time_stop();
+	record[stage][5] = time_stop(); //현재까지 기록을 6번째 랭킹에 저장
 
 	fclose(rank);
-	rank = fopen("ranking", "w");
-	//정렬
+	rank = fopen("ranking", "w");  //읽기 모드로 다시 염
+	//랭킹 정렬 1~6위까지
 	for (int outplay = 0; outplay < 5; outplay += 1){
 		for (int inplay = 0; inplay < 5 - outplay; inplay += 1){
 			if (record[stage][inplay] > record[stage][inplay + 1]){
@@ -643,7 +641,7 @@ int ranking_reset(int stage){
 		}
 	}
 
-	for (int k = 0; k < 5; k += 1){
+	for (int k = 0; k < 5; k += 1){  //파일에 다시 저장하는데, 5등까지만 저장함
 		fprintf(rank, "===%d===\n", k);
 		for (int n = 0; n < 5; n += 1)
 			fprintf(rank, "%s  -  %d\n", name_amin[k][n], record[k][n]);
@@ -741,36 +739,41 @@ void undo_fuc (char input,char check){
 
 		}
 }
-void undo_bbagi(){
+void undo_bbagi(){//언두를 실행한 후 사용된언두의상황과 키를 제거해 주는 함수
 	for(int i=4;i>0;i--)
 	{
-		undo[i+1]=undo[i];
-		check_num[i+1]=check_num[i];
-		check_num[i]=0;
-		undo[i]=0;
+		undo[i+1]=undo[i];//가장뒤에저장된(가장최근의) 입력받은키입력제거
+		check_num[i+1]=check_num[i];//가장뒤에저장된(가장최근의) 플레이어의 이동 상황을 제거
+		check_num[i]=0;//배열의 내용을 이동시킨 배열을공백으로만들어준다
+		undo[i]=0;//배열의 내용을 이동시킨 배열을공백으로만들어준다
 	}
 }
 void undo_input(){
 	for(int i=0;i<5;i++){
-		undo[i]=undo[i+1];
-		check_num[i]=check_num[i+1];}
-	undo[5]=keyinput;
+		undo[i]=undo[i+1];//뒤의배열의내용을한칸앞으로이동시킨다
+		check_num[i]=check_num[i+1];}//뒤의배열의내용을한칸앞으로이동시킨다
+	undo[5]=keyinput;//입력받은키를언두배열에저장한다(함수가)
 }
 
 //*********************세이브앤로드**************************(기여자:우호진)
 void save_game(int stage){
 		FILE *savefile;
-		savefile = fopen("sokoban", "w");
+		savefile = fopen("sokoban", "w"); //소코반 파일 열기
 		if (savefile == NULL){
-			printf("오류 : 세이브 파일을 열 수 없습니다.\n");
+			printf("세이브 파일을 열 수 없습니다.\n");
 			exit(1);
    	}
-		time_stop();
-		fprintf(savefile, "%d, %s\n", stage, name);
+		fprintf(savefile, "%d, %s\n", stage, name); //세이브 한 당시 스테이지와 이름 저장
 		for (Y=0; Y<30; Y++)
 			for (X=0; X<30; X++)
-				fprintf(savefile, ".%c", map_now[stage][Y][X]);
-		fprintf(savefile, "\n%d", time_stop());
+				fprintf(savefile, ".%c", map_now[stage][Y][X]);  //맵을 저장
+		fprintf(savefile, "\n%d\n", time_stop()); //플레이 시간 저장
+		for (int q = 0; q < 6; q += 1){
+			fprintf(savefile, ".%d", check_num[q]);  //언두 중에서 개수체크 할 것
+		}
+		for (int q = 0; q < 6; q += 1){
+			fprintf(savefile, ".%c", undo[q]);     //언두 배열을 저장해둠
+		}
 		fclose(savefile);
 
 }
@@ -778,14 +781,20 @@ void load_game(void){
 		FILE *savefile;
 		savefile = fopen("sokoban", "r");
 		if (savefile == NULL){
-			printf("세이브 파일이 없습니다.\n");
+			printf("세이브 파일이 없습니다.\n");  //소코반 파일 읽음
 			}
-		time_start = time(NULL);
-		fscanf(savefile, "%d, %s\n", &stage, &name);
+		time_start = time(NULL);  // 로드 ~ 랭킹등록 까지 시간 계산을 위함.
+		fscanf(savefile, "%d, %s\n", &stage, &name); //이름, 스테이지 읽음
 		for (Y=0; Y<30; Y++)
 			for (X=0; X<30; X++)
-				fscanf(savefile, ".%c", &map_now[stage][Y][X]);
-		fscanf(savefile, "\n%d", &time_stopped);
+				fscanf(savefile, ".%c", &map_now[stage][Y][X]); //맵 불러오기
+		fscanf(savefile, "\n%d\n", &time_stopped);  // 세이브때 까지의 시간 불러오기
+		for (int q = 0; q < 6; q += 1){
+			fscanf(savefile, ".%d", &check_num[q]); //마찬가지로 언두 상황 불러오기
+		}
+		for (int q = 0; q < 6; q += 1){
+			fscanf(savefile, ".%c", &undo[q]);
+		}
 		fclose(savefile);
 
 }
@@ -794,11 +803,10 @@ void load_game(void){
 void replay(char stage){
 	for(int i=0;i<=6;i++){
 	   check_num[i]=0;
-		 undo[i]=0;}
-	    undo_count = 0;
+		 undo[i]=0;} //언두 초기화
 			for (Y=0; Y<30; Y++)
 				for (X=0; X<30; X++)
-					map_now[stage][Y][X] = map[stage][Y][X];
+					map_now[stage][Y][X] = map[stage][Y][X];  //맵 초기화
 }
 
 //**********************메인함수**********************
@@ -806,15 +814,15 @@ int main(void)
 {
 
 	system("clear");
-	yourname();
-    map_reader();
-    where_is_bank();
+	yourname(); //이름 입력
+    map_reader();  //맵 불러옴
+    where_is_bank();  //은행위치 저장
 	time_start = time(NULL); //시작 시간 저장
 	while(1){ //무한루프
 		input(stage);
-     	system("clear");
+    system("clear");
 		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
 		map_print(stage, keyinput); //맵 출력
 	}
 	return 0;
-}
+}k
