@@ -21,7 +21,7 @@ int bank_location_Y[5][20] = {0}; //O위치 Y좌표
 char map[5][30][30]={0};    //불러온 맵
 char map_now[5][30][30] = {0};  //이동후의 맵
 int count_bank[5]={0};  //O의 수
-char name[10] = {0};  //플레이어 이름
+char name[11] = {0};  //플레이어 이름
 unsigned int time_start = 0;  //게임/스테이지를 시작한 시간
 unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
@@ -536,7 +536,7 @@ void ranking_print(void){
 		}
 	int record[5][6]; //시간기록 : 스테이지, 랭킹시간
 	int stage_amin;
-	char name_amin[5][6][10] = {0}; //이름 배열 : 스테이지, 랭킹이름, 이름글자
+	char name_amin[5][6][11] = {0}; //이름 배열 : 스테이지, 랭킹이름, 이름글자
 	for (int k = 0; k < 5; k += 1){
 		fscanf(rank, "===%d===\n", &stage_amin); //해당 스테이지 읽음
 		for (int n = 0; n < 5; n += 1) //스테이지마다 5개의 기록들 읽기
@@ -607,10 +607,10 @@ int ranking_reset(int stage){ //랭킹 순위 돌려주기
 		printf("랭킹파일 에러.\n");
 		}
 	int gotrash; //임시 보관소
-	int trashforname[10] = {0}; //이름 임시 보관소
+	int trashforname[11] = {0}; //이름 임시 보관소
 	int record[5][6]={0}; //랭킹 출력 함수와 같음
 	int stage_amin=0;
-	char name_amin[5][6][10] = {0};
+	char name_amin[5][6][11] = {0};
 	for (int k = 0; k < 5; k += 1){  //스테이지, 이름, 기록 모두 읽기
 		fscanf(rank, "===%d===\n", &stage_amin);
 		for (int n = 0; n < 5; n += 1)
