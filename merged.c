@@ -205,6 +205,12 @@ while(1){
 
 		if (('a'<=tmp && tmp<='z') || ('A'<=tmp && 'Z'<=tmp) || (tmp == '\n') || (tmp=='\0')){  //입력키가 알파벳, 개행문자, 널문자인지 확인한다.
 			if (tmp=='\n'){  //개행 문자일 경우
+				if (i==0){   //아무것도 입력하지 않았을 경우
+					printf("이름은 한 글자 이상이어야 합니다\n");
+					sleep(1);
+					system("clear");
+					break;
+				}
 				name[i] = '\0';  //개행 문자 자리에 널 문자를 넣는다.
 				system("clear");
 				printf("Hello, %s\n",name);
