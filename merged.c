@@ -510,8 +510,10 @@ int clear_check(int stage){  //은행위치에 돈이 있는지 확인을 통해
 			}
 	   }
 	}
-	if (new_stage != 0)  //new 기능을 사용했을 경우
+	if (new_stage != 0){  //new 기능을 사용했을 경우
 		stage = 0;  //현재 스테이지 초기화
+		new_stage = 0;  //new사용 초기화
+	}
 	return stage;
 
 }
