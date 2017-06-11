@@ -166,22 +166,27 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
 
 void yourname(void){    // 이름 입력 함수
 	while(1){
+		for(int i=0; i<11; i++)
+					name[i]=0;
+
 		printf("input name : ");
   	scanf("%s",&name);
-		for(int i=0; i<11; i++)
-			if(!('a'<=name[i]&&name[i]<='z' || 'A'<=name[i]&&name[i]<='Z')){
+		for(int i=0; i<11; i++){
+			if(!(('a'<=name[i]&&name[i]<='z') || ('A'<=name[i]&&name[i]<='Z')||(name[i]==0)||(name[i]=' '))){
 					printf("영문이 아닙니다, 재입력하세요.\n");
 					sleep(1);
 					system("clear");
 					break;}
-			else
-					break;
+			else if(name[10]==0){
+				system("clear");
+				printf("Hello, %s\n",name);
+				sleep(1);
+				system("clear");
+				return;
+				}
+			}
+		}
 	}
-  system("clear");
-  printf("Hello, %s\n",name);
-  sleep(1);
-  system("clear");
-}
 
 //**************************이동함수********************************(기여자:이상현)
 char move (int keyinput, int stage){
