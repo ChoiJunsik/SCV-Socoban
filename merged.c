@@ -1,4 +1,5 @@
 ﻿#include<stdio.h>
+#include<string.h>
 #include<termio.h>
 #include<unistd.h>
 #include<time.h>
@@ -165,12 +166,70 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
 }
 
 void yourname(void){    // 이름 입력 함수
-  printf("input name : ");
-  scanf("%s",&name);
-  system("clear");
-  printf("Hello, %s\n",name);
-  sleep(1);
-  system("clear");
+while(1){
+	int tmp=0, i=0;
+	for (int i=0; i<11; i++) //name 배열을 초기화한다.
+		name[i] = '\0';
+ 	printf("input name : ");
+	while(1){
+		tmp = getchar();
+		if (tmp==' '){   //공백이 입력되었는지 확인한다.
+			while((tmp=getchar()) != '\n')
+				;
+			printf("공백은 사용할 수 없습니다\n");
+			sleep(1);
+			system("clear");
+			i=0;
+			break;
+		}
+		
+		if (name[10] != '\0'){ //11번째 배열에 글자가 입력되었는지 판정한다 (10글자 제한)
+			while((tmp=getchar()) != '\n')
+				;
+			printf("이름은 10글자 이내여야 합니다\n");
+			sleep(1);
+			system("clear");
+			i=0;
+			break;
+		}
+		if (tmp&0x80){  //한글인지 판정한다.
+			printf("이름은 영어만 입력 가능합니다\n");
+			while((tmp=getchar()) != '\n')
+				;
+			sleep(1);
+			system("clear");
+			i=0;
+			break;
+		}
+			
+
+		if (('a'<=tmp && tmp<='z') || ('A'<=tmp && 'Z'<=tmp) || (tmp == '\n') || (tmp=='\0')){  //입력키가 알파벳, 개행문자, 널문자인지 확인한다.
+			if (tmp=='\n'){  //개행 문자일 경우
+				name[i] = '\0';  //개행 문자 자리에 널 문자를 넣는다.
+				system("clear");
+				printf("Hello, %s\n",name);
+				sleep(1);
+				system("clear");
+				return;  //이름 입력 함수를 벗어난다.
+			}
+			else{   //알파벳, 널문자일 경우
+				name[i++] = tmp;  //문자를 이름 배열에 넣고, 다음 문자를 읽는다.
+				continue;
+			}
+		}
+
+		else {  //영어, 한글 이외에 특수문자 등을 판단한다.
+			while((tmp=getchar()) != '\n')
+				;
+			printf("이름은 영어만 입력 가능합니다\n");
+			sleep(1);
+			system("clear");
+			i=0;
+			break;
+		}
+
+	}
+}
 }
 
 //**************************이동함수********************************(기여자:이상현)
@@ -836,6 +895,7 @@ int main(void)
     map_reader();  //맵 불러옴
     where_is_bank();  //은행위치 저장
 	time_start = time(NULL); //시작 시간 저장
+	map_print(stage, keyinput); //맵 출력
 	while(1){ //무한루프
 		input(stage);
     system("clear");
