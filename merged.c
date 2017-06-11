@@ -53,6 +53,27 @@ void getch(); //키 하나 입력
 void input(int stage);  //키 입력에 따른 함수 사용 설정
 void new(void);  //new함수
 
+//**********************메인함수**********************
+
+int main(void)
+{
+
+	system("clear");
+	yourname(); //이름 입력
+    map_reader();  //맵 불러옴
+    where_is_bank();  //은행위치 저장
+	time_start = time(NULL); //시작 시간 저장
+	map_print(stage, keyinput); //맵 출력
+	while(1){ //무한루프
+		input(stage);
+    	system("clear");
+		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
+		map_print(stage, keyinput); //맵 출력
+	}
+	return 0;
+}
+
+
 //***********************new함수*********************(최준식)
 
 void new(void)
@@ -903,24 +924,4 @@ void replay(char stage){
 			for (Y=0; Y<30; Y++)
 				for (X=0; X<30; X++)
 					map_now[stage][Y][X] = map[stage][Y][X];  //맵 초기화
-}
-
-//**********************메인함수**********************
-
-int main(void)
-{
-
-	system("clear");
-	yourname(); //이름 입력
-    map_reader();  //맵 불러옴
-    where_is_bank();  //은행위치 저장
-	time_start = time(NULL); //시작 시간 저장
-	map_print(stage, keyinput); //맵 출력
-	while(1){ //무한루프
-		input(stage);
-    	system("clear");
-		stage = clear_check(stage); //클리어했다면 stage+1, 아니면 변하지 않은 값을 저장
-		map_print(stage, keyinput); //맵 출력
-	}
-	return 0;
 }
