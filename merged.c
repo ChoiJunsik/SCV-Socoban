@@ -27,7 +27,6 @@ unsigned int time_stopped = 0; //일시정지된 시간
 char keyinput = 0; // 입력값
 int stage=0;//현재 스테이지
 int new_stage=0; // new함수 사용여부
-int undo_count=0;
 
 //***************************함수원형***********************************
 
@@ -55,20 +54,19 @@ void undo_input(void);//언두에 필요한 이동키와 상황을 배열에 저
 void undo_bbagi(void);//이미 undo한 이동키와 상황을 빼줌
 void undo_fuc(char ,char);//undo주요함수
 
-void replay(char stage); // 맵, undo_count 초기화
+void replay(char stage); // 맵 초기화
 
 
-void ranking_print(void);
-int ranking_reset(int);
+void ranking_print(void);  //랭킹출력
+int ranking_reset(int);   //랭킹 초기화
 
-void getch();
-void input(int stage);
+void getch(); //키 하나 입력
+void input(int stage);  //키 입력에 따른 함수 사용 설정
 
-void new(void);
+void new(void);  //new함수
 //***********************new함수*********************(최준식)
 void new(void)
 {
-	undo_count = 0; // 카운트 초기화
 	for(int i=0;i<6;i++){
   check_num[i]=0;
   undo[i]=0;
@@ -165,7 +163,8 @@ void map_reader(){ // 맵 파일에서 맵을 읽어들이고 맵을 저장
 					map_now[reading_stage][Y][X] = map[reading_stage][Y][X];
 
 }
-void yourname(void){
+
+void yourname(void){    // 이름 입력 함수
   printf("input name : ");
   scanf("%s",&name);
   system("clear");
@@ -494,12 +493,11 @@ void input(int stage) {
 			break;
 
 		case 'r' :
-			replay(stage);
+			replay(stage);   //리플레이 기능
 			break ;
 		case 'n' :
-			new();
+			new();  //new 기능
 			stage=0;
-			time_start = time(NULL);
 			new_stage++;
 			break ;
 		case 'e' :
@@ -805,11 +803,10 @@ void load_game(void){
 void replay(char stage){
 	for(int i=0;i<=6;i++){
 	   check_num[i]=0;
-		 undo[i]=0;}
-	    undo_count = 0;
+		 undo[i]=0;} //언두 초기화
 			for (Y=0; Y<30; Y++)
 				for (X=0; X<30; X++)
-					map_now[stage][Y][X] = map[stage][Y][X];
+					map_now[stage][Y][X] = map[stage][Y][X];  //맵 초기화
 }
 
 //**********************메인함수**********************
@@ -817,9 +814,9 @@ int main(void)
 {
 
 	system("clear");
-	yourname();
-    map_reader();
-    where_is_bank();
+	yourname(); //이름 입력
+    map_reader();  //맵 불러옴
+    where_is_bank();  //은행위치 저장
 	time_start = time(NULL); //시작 시간 저장
 	while(1){ //무한루프
 		input(stage);

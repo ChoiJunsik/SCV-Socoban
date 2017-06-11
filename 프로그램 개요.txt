@@ -23,7 +23,7 @@ replay 는 replay(char stage)로 구현되었다.
 
 new는 new(void) 로 구현되었다.
 
-eixt는 input내 case 'e'로 구현되었다.
+exit는 input내 case 'e'로 구현되었다.
 
 save는 save_game(int)로 구현되었다.
 
