@@ -184,8 +184,6 @@ while(1){
 		}
 		
 		if (name[10] != '\0'){ //11번째 배열에 글자가 입력되었는지 판정한다 (10글자 제한)
-			while((tmp=getchar()) != '\n')
-				;
 			printf("이름은 10글자 이내여야 합니다\n");
 			sleep(1);
 			system("clear");
