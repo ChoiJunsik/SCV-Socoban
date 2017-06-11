@@ -366,7 +366,7 @@ void cleared(void){//스테이지 클리어 시
 	printf("     OGs,.:;:rwZKHXP5L,    .   OB   cBBBBBgD EB                 BJ H     BB      BQ 7\n\n");
 
 	printf("                스테이지 %d 클리어!!            좀 더 노오오오오오오력 하죠!!!! \n",stage+1);
-	printf("			%s 님의 기록을 랭킹에 저장했습니다!\n",name);
+	printf("			%s 님의 기록을 랭킹에 저장했습니다! \n",name);
 	sleep(3);
 	system("clear");
 	for(int i=0;i<=6;i++) //undo 횟수 초기화
@@ -547,7 +547,10 @@ void ranking_print(void){
 	for (int k = 0; k < 5; k += 1){  //위에 기록한 내용들 출력하기
 		printf("map %d\n", k + 1); //map 번호 출력
 		for (int n = 0; n < 5; n += 1) //1~5 순위
-			printf("%s    %d:%d\n", name_amin[k][n], record[k][n] / 60, record[k][n] % 60);
+			if (record[k][n] >= 9999)
+				printf("no record\n"); //기록이 9999이상이면 기록없다는 것으로 판정
+			else
+				printf("%s    %d:%d\n", name_amin[k][n], record[k][n] / 60, record[k][n] % 60);
 		}
 		printf("(COMMAND)");
 	while(1){
@@ -560,31 +563,46 @@ void ranking_print(void){
 			system("clear");
 			printf("map 1\n");
 			for (int n = 0; n < 5; n += 1)
-				printf("%s    %d:%d\n", name_amin[0][n], record[0][n] / 60, record[0][n] % 60);
+				if (record[0][n] >= 9999)
+					printf("no record\n");
+				else
+					printf("%s    %d:%d\n", name_amin[0][n], record[0][n] / 60, record[0][n] % 60);
 		}
 		if (keyinput == '2'){
 			system("clear");
 			printf("map 2\n");
 			for (int n = 0; n < 5; n += 1)
-				printf("%s    %d:%d\n", name_amin[1][n], record[1][n] / 60, record[1][n] % 60);
+				if (record[1][n] >= 9999)
+					printf("no record\n");
+				else
+					printf("%s    %d:%d\n", name_amin[1][n], record[1][n] / 60, record[1][n] % 60);
 		}
 		if (keyinput == '3'){
 			system("clear");
 			printf("map 3\n");
 			for (int n = 0; n < 5; n += 1)
-				printf("%s    %d:%d\n", name_amin[2][n], record[2][n] / 60, record[2][n] % 60);
+				if (record[2][n] >= 9999)
+					printf("no record\n");
+				else
+					printf("%s    %d:%d\n", name_amin[2][n], record[2][n] / 60, record[2][n] % 60);
 		}
 		if (keyinput == '4'){
 			system("clear");
 			printf("map 4\n");
 			for (int n = 0; n < 5; n += 1)
-				printf("%s    %d:%d\n", name_amin[3][n], record[3][n] / 60, record[3][n] % 60);
+				if (record[3][n] >= 9999)
+					printf("no record\n");
+				else
+					printf("%s    %d:%d\n", name_amin[3][n], record[3][n] / 60, record[3][n] % 60);
 		}
 		if (keyinput == '5'){
 			system("clear");
 			printf("map 5\n");
 			for (int n = 0; n < 5; n += 1)
-				printf("%s    %d:%d\n", name_amin[4][n], record[4][n] / 60, record[4][n] % 60);
+				if (record[4][n] >= 9999)
+					printf("no record\n");
+				else
+					printf("%s    %d:%d\n", name_amin[4][n], record[4][n] / 60, record[4][n] % 60);
 		}
 		switch(keyinput){
 			case '1' :
